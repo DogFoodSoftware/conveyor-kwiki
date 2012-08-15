@@ -126,8 +126,9 @@ foreach ($lines as $line) {
 	$codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
 	echo htmlspecialchars($line)."\n";
     }
-    // otherwise, process the line according to the state
-    else if ($inDoc) echo $line."\n";
+    // Otherwise, process the line according to the state. In doc-mode, remove
+    // leading stars and spaces to make compatibla with Java-style docs set-off.
+    else if ($inDoc) echo preg_replace('/^\s*\*?\s*/', '', $line)."\n";
     else echo htmlspecialchars($line)."\n";
     $i += 1;
     if (!$inDoc) $codeCount += 1;
