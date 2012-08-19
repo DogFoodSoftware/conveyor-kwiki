@@ -22,7 +22,7 @@ if ($requestUri == "/documentation/$project") {
     $headerTitle = "$project documentation";
     $minifyBundle = 'documentationIndex';
 
-    $projectPath = "$baseDir/$project/kdata/kwiki";
+    $projectPath = "$baseDir/$project/kdata/documentation";
     $contents =<<<EOT
 <div class="grid_12 blurbSummary">
   <div class="blurbTitle">Index</div>
@@ -35,7 +35,7 @@ else {
     // extract the file path
     $filePath = preg_replace("/^\/documentation\/$project\//", '', $requestUri);
     // now put it all together
-    $absFilePath = "$baseDir/$project/kdata/kwiki/$filePath";
+    $absFilePath = "$baseDir/$project/kdata/documentation/$filePath";
     /**
        Open with the standard Dog Food Software page header and opening. This will be
        parameterized at some point before the release of 1.0.

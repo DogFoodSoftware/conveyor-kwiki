@@ -14,7 +14,7 @@ $project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $requestUri);
 $filePath = preg_replace("/^\/documentation\/$project/", '', $requestUri);
 $baseDir = '/home/user/playground';
 // now put it all together
-$filePath = "$baseDir/$project/kdata/kwiki/$filePath";
+$filePath = "$baseDir/$project/kdata/documentation/$filePath";
 
 echo file_get_contents($filePath);
 ?>
