@@ -80,9 +80,14 @@ EOT;
 } // close primary section foreach
 /**
    <div class="p">
-     As part of the 'mainContent' section, there is support for old style API
-     documentation. It is not clear whether or not this section will be
-     retained as we regularize on a more "pure" style of REST.
+     Each project is fully self-documented, at least at the basic level of
+     listing and being able to view all project files. We accomplish this more
+     or less automatically be generating a project index.
+   </div>
+   <div class="p">
+     Each directory is listed as a separate section, with the immediate files
+     listed within. The order of the directory chunks is the result of an
+     alphebetized depth first search.
    </div>
 */
 echo <<<EOT
@@ -101,16 +106,18 @@ EOT;
     exception.
   </div>
 */
-function listFile($file, $relPath) {
+function listFile($file, $relPath, $i) {
   global $project;
+  $style = ($i % 8) == 0 ? 'eight ' : '';
+  if ($i % 4 == 0) $style .= 'fourth ';
+  if ($i % 3 == 0) $style .= 'third ';
+  if ($i % 2 == 0) $style .= 'second';
   if (preg_match('/\.php$|\.js$/', $file))
-    echo "<li><a href=\"/documentation/$project/$relPath/$file\">$file</a></li>";
-  else echo "<li>$file</li>";
+      echo "<li".(strlen($style) > 0 ? ' class="'.$style.'"' : '')."><a href=\"/documentation/$project/$relPath/$file\">$file</a></li>";
+  else echo "<li".(strlen($style) > 0 ? ' class="'.$style.'"' : '').">$file</li>";
 }
 
-$col = FALSE; // need $col as global to track
-function listDir($title, $dir, $descendInPlace) {
-  global $col;
+function listDir($title, $dir) {
   global $project;
   $files = array();
   $dirs = array();
@@ -124,57 +131,26 @@ function listDir($title, $dir, $descendInPlace) {
   }
   sort($files);
   sort($dirs);
-  // might not use the $style, but that's okay
-  $style = "grid_4";
-  if ($col) $style .= ' alpha';
-  else $style .= ' omega';
-  if (!$descendInPlace) {  
-    if (count($files) > 0) {
-      echo "<div class=\"$style\">\n";
-      echo "<div class=\"filesTitle\">$title</div>\n";
+
+  if (count($files) > 0) {
+      echo "<div class=\"floatList\">";
+      echo "<div class=\"subHeader\">$title</div>\n";
       echo "<ul>\n";
-      foreach($files as $file) listFile($file, str_replace("/home/user/playground/$project/", '', $dir));
+      $i = 1;
+      foreach($files as $file) {
+	  listFile($file, str_replace("/home/user/playground/$project/", '', $dir), $i);
+	  $i += 1;
+      }
       echo "</ul>\n";
       echo "</div>\n";
-      if ($col) echo "<div class=\"clear\"></div>\n";
-      $col = !$col;
-    }
-    foreach ($dirs as $subDir) { // remember, $subDir is full path
-      listDir('/'.basename($subDir), "$subDir", TRUE);
-    }
   }
-  else {
-    echo "<div class=\"$style\">\n";
-    echo "<div class=\"filesTitle\">$title</div>\n";
-    echo "<ul>\n";
-    foreach($files as $file) listFile($file, str_replace("/home/user/playground/$project/", '', $dir));
-    // at this point, the $dirs becomes the search frontier; process depth first
-    while (count($dirs) > 0) {
-      $subFiles = array();
-      $nextDir = array_shift($dirs);
-      $dh = opendir($nextDir);
-      // TODO: we can't sort the dirs, so we need them to come in sorted... (or push to separate array and merge... ugly)
-      while (false !== ($file = readdir($dh))) {
-        if (!preg_match('/^\./', $file) && !preg_match('/~$/', $file)) {
-          if (is_dir("$dir/$file"))
-            array_unshift($dirs, "$nextDir/$file");
-          else $subFiles[] = $file;
-        }
-      }
-      sort($subFiles);
-      $relDir = str_replace($dir, '', $nextDir);
-      foreach($subFiles as $file) {
-        echo "<li>$relDir/$file</li>";
-      }
-    }
-    echo "</ul>\n";
-    echo "</div>\n";
-    if ($col) echo "<div class=\"clear\"></div>\n";
-    $col = !$col;
+  foreach ($dirs as $subDir) { // remember, $subDir is full path
+      if (!preg_match('/runnable$/', "$subDir"))
+	  listDir(($title == '/' ? '' : $title).'/'.basename($subDir), "$subDir");
   }
 }
 
-listDir('Files', "/home/user/playground/$project/src", FALSE);
+listDir('/', "/home/user/playground/$project");
 echo <<<EOT
 	  </div><!-- .description for Project Files -->
 	</div><!-- .blurbSummary for Project Files -->
