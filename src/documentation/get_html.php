@@ -34,14 +34,15 @@ else {
     // we will try and retrieve the specific file
     // extract the file path
     $filePath = preg_replace("/^\/documentation\/$project\//", '', $requestUri);
+    $page_title = preg_replace('/_/', ' ', $filePath);
     // now put it all together
     $absFilePath = "$baseDir/$project/kdata/documentation/$filePath";
     /**
        Open with the standard Dog Food Software page header and opening. This will be
        parameterized at some point before the release of 1.0.
     */
-    $pageTitle = "Dog Food Software || $project/$filePath";
-    $headerTitle = "$project/$filePath";
+    $pageTitle = "Dog Food Software || $project/$page_title";
+    $headerTitle = "$project/$page_title";
     $minifyBundle = 'kibblesCore';
     
     $contents = file_get_contents($absFilePath);

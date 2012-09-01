@@ -167,8 +167,9 @@ echo '	</div><!-- .mainContent -->';
 echo '	<div class="grid_4 secondaryContent">';
 foreach (getSecondarySections() as $sectionTitle) {
     $content = getSecondaryContent($sectionTitle);
+    // TODO: turn title into snake case and add as class
 echo<<<EOT
-          <div class="status grid_4 alpha omega blurbSummary">
+          <div class="grid_4 alpha omega blurbSummary">
 	    <div class="blurbTitle">
 	      $sectionTitle
 	    </div>
