@@ -1,0 +1,18 @@
+<?php
+require('/home/user/playground/kwiki/runnable/lib/project-template.php');
+$isaTrail = array('<a href="/projects/">projects</a>');
+$projectTitle="KibblesWiki (aka, KWiki)";
+
+$projectStatement='A wiki-like engine tightly integrated with the <a
+href="/projects/kibbles-core">Kibbles</a> implementation of <a
+href="/projects/literate-development">literate development</a>.';
+
+// TODO: put somewhere:
+// * Has the ability to processs files for Kibbles style literate
+//   documentation.
+// * Primarily written as a tightly integrated component, also has potential
+//   to operate in a stand-alone capacity so broken out into separate project.
+
+output($project);
+?>
+

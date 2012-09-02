@@ -80,19 +80,12 @@ EOT;
 } // close primary section foreach
 /**
    <div class="p">
-     Each project is fully self-documented, at least at the basic level of
-     listing and being able to view all project files. We accomplish this more
-     or less automatically be generating a project index.
-   </div>
-   <div class="p">
-     Each directory is listed as a separate section, with the immediate files
-     listed within. The order of the directory chunks is the result of an
-     alphebetized depth first search.
+     Now we generate the the project file index.
    </div>
 */
 echo <<<EOT
 
-            <div class="grid_8 blurbSummary alpha omega projectFiles">
+            <div id="project_files" class="grid_8 blurbSummary alpha omega">
 	      <div class="blurbTitle">
 		Project Files
 	      </div>
@@ -100,10 +93,26 @@ echo <<<EOT
 EOT;
 /**
   <div class="p">
-    We sort out the files in the 'src' directory into files and
-    directories. Generally, the directories represent resource categories or
-    code libraries. Files directly in the project src should be the
-    exception.
+    The project files section lists all file artifacts associated with the
+    static project definition.<!-- note: This means dynamic files, which may
+    be generated during runtime, are not listed. --> In effect, this means
+    everything but the <code>runnable</code> and <code>data</code> directory
+    is listed.
+  </div>
+  <div class="p">
+    The files are annotated with CSS style c lasses 'second', 'third',
+    'fourth', and 'eight' (TODO: should be 'eighth') according to a modulo
+    test.<!-- note: Notice that any given item may have multiple
+    designations. The eighth item, for instance, is also a second and fourth
+    item. --> This is used in the adaptive layout to determine where to insert
+    breaks. E.g., in a relatively narrow screen, allowing for two colomns, we
+    would break after every 'second' item. In a very wide screen, we might
+    break after every eighth. This is laid out as an 8 column sub-section of a
+    grid 12 layout, and so 8 is as fine as it gets.
+  </div>
+  <div class="p">
+    The <code>listFile()</code> determines the CSS classes as described above
+    and sets up file links.
   </div>
 */
 function listFile($file, $relPath, $i) {
@@ -112,11 +121,30 @@ function listFile($file, $relPath, $i) {
   if ($i % 4 == 0) $style .= 'fourth ';
   if ($i % 3 == 0) $style .= 'third ';
   if ($i % 2 == 0) $style .= 'second';
+  echo "<li".(strlen($style) > 0 ? ' class="'.$style.'"' : '').">";
   if (preg_match('/\.php$|\.js$/', $file))
-      echo "<li".(strlen($style) > 0 ? ' class="'.$style.'"' : '')."><a href=\"/documentation/$project/$relPath/$file\">$file</a></li>";
-  else echo "<li".(strlen($style) > 0 ? ' class="'.$style.'"' : '').">$file</li>";
+      echo "<a href=\"/documentation/$project/$relPath/$file\">$file</a>";
+  else if (preg_match('|^kdata/documentation|', $relPath)) {
+      $extracted_path = preg_replace('|^kdata/documentation|','',$relPath);
+      if (strlen($extracted_path) > 0)
+	  echo "<a href=\"/documentation/$project/$extractedPath/$file\">$file</a>";
+      else echo "<a href=\"/documentation/$project/$file\">$file</a>";
+  }
+  else echo "$file";
+  echo '</li>';
 }
-
+/**
+  <div class="p">
+    We will kick things off by calling the <code>listDir()</code> function on
+    the project root. The method will then alphabetize and sort the directory
+    contents into files and directories. The files will be listed under the
+    directory heading and the directories will be processed with a recursive
+    call to <code>listDir()</code>, resulting in a depth first traversal of
+    the project directories. The <code>runnable</code> and <code>data</code>
+    directories will be ignored as these are exclusively part of the project
+    runtime.
+  </div>
+ */
 function listDir($title, $dir) {
   global $project;
   $files = array();
@@ -145,7 +173,7 @@ function listDir($title, $dir) {
       echo "</div>\n";
   }
   foreach ($dirs as $subDir) { // remember, $subDir is full path
-      if (!preg_match('/runnable$/', "$subDir"))
+      if (!preg_match('/^runnable$/', "$subDir") && !preg_match('/^data$/', "subDir"))
 	  listDir(($title == '/' ? '' : $title).'/'.basename($subDir), "$subDir");
   }
 }
