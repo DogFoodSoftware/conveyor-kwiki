@@ -173,7 +173,7 @@ function listDir($title, $dir) {
       echo "</div>\n";
   }
   foreach ($dirs as $subDir) { // remember, $subDir is full path
-      if (!preg_match('/^runnable$/', "$subDir") && !preg_match('/^data$/', "subDir"))
+      if (!preg_match(":/playground/$project/runnable(\$|/):", "$subDir") && !preg_match(":/playground/$project/data(\$|/):", "subDir"))
 	  listDir(($title == '/' ? '' : $title).'/'.basename($subDir), "$subDir");
   }
 }
