@@ -126,7 +126,7 @@ function listFile($file, $relPath, $i) {
   if (preg_match('/\.php$|\.js$/', $file))
       echo "<a href=\"/documentation/$project/$relPath/$file\">$file</a>";
   else if (preg_match('|^kdata/documentation|', $relPath)) {
-      $extracted_path = preg_replace('|^kdata/documentation|','',$relPath);
+      $extracted_path = preg_replace('|^kdata/documentation/|','',$relPath);
       if (strlen($extracted_path) > 0)
 	  echo "<a href=\"/documentation/$project/$extracted_path/$file\">$literary_title</a>";
       else echo "<a href=\"/documentation/$project/$file\">$literary_title</a>";
