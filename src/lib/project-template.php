@@ -121,14 +121,15 @@ function listFile($file, $relPath, $i) {
   if ($i % 4 == 0) $style .= 'fourth ';
   if ($i % 3 == 0) $style .= 'third ';
   if ($i % 2 == 0) $style .= 'second';
+  $literary_title = preg_replace('/_/', ' ', $file);
   echo "<li".(strlen($style) > 0 ? ' class="'.$style.'"' : '').">";
   if (preg_match('/\.php$|\.js$/', $file))
       echo "<a href=\"/documentation/$project/$relPath/$file\">$file</a>";
   else if (preg_match('|^kdata/documentation|', $relPath)) {
       $extracted_path = preg_replace('|^kdata/documentation|','',$relPath);
       if (strlen($extracted_path) > 0)
-	  echo "<a href=\"/documentation/$project/$extractedPath/$file\">$file</a>";
-      else echo "<a href=\"/documentation/$project/$file\">$file</a>";
+	  echo "<a href=\"/documentation/$project/$extracted_path/$file\">$literary_title</a>";
+      else echo "<a href=\"/documentation/$project/$file\">$literary_title</a>";
   }
   else echo "$file";
   echo '</li>';

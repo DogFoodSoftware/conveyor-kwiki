@@ -7,5 +7,5 @@ A standard Kibbles controller (TODO: link the REST Processing Pattern section of
 ?>
 <?php
 $handlerBase = dirname(__FILE__);
-require('/home/user/playground/kibbles-core/runnable/lib/kibbles-controller.php');
+require('/home/user/playground/kibbles/runnable/lib/kibbles-controller.php');
 ?>

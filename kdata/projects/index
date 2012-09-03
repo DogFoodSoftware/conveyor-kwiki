@@ -4,7 +4,7 @@ $isaTrail = array('<a href="/projects/">projects</a>');
 $projectTitle="KibblesWiki (aka, KWiki)";
 
 $projectStatement='A wiki-like engine tightly integrated with the <a
-href="/projects/kibbles-core">Kibbles</a> implementation of <a
+href="/projects/kibbles">Kibbles</a> implementation of <a
 href="/projects/literate-development">literate development</a>.';
 
 // TODO: put somewhere:
