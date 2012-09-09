@@ -1,13 +1,13 @@
 <?php
 /**
 <div class="p">
-
+Retrieves a single document.
 </div>
 */
 ?>
 <?php
 $requestUri = $_SERVER['REQUEST_URI'];
-
+    echo $requestUri;
 // extract the project
 $project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $requestUri);
 // common config elements
@@ -16,6 +16,9 @@ $pageAuthor = 'Liquid Labs, LLC';
 $isaTrail = array('<a href="/projects/">projects</a>', "<a href=\"/projects/$project\">$project</a>");
 $baseDir = '/home/user/playground';
 
+// TODO: SECURITY we're allowing the user to pull up files; need to make sure it's limited to the kdata directory
+
+// TODO: are we stepping on the 'get_all' convention? Pick a way and go with it or document why not
 if ($requestUri == "/documentation/$project") {
     // then we want to index the project concepts
     $pageTitle = "Dog Food Software || $project documentation ";
