@@ -4,5 +4,6 @@
     "audience": "kibbles developers",
     "foundations": "kibbles, PHP",
     "short description": "Simple RESTful wiki application used in Kibbles development.",
-    "url id": "kwiki"
+    "url id": "kwiki",
+    "groups": ["verticals"]
 }
