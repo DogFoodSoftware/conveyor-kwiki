@@ -7,7 +7,6 @@ Retrieves a single document.
 ?>
 <?php
 $requestUri = $_SERVER['REQUEST_URI'];
-    echo $requestUri;
 // extract the project
 $project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $requestUri);
 // common config elements
