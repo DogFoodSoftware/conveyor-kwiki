@@ -38,7 +38,7 @@ else {
     $filePath = preg_replace("/^\/documentation\/$project\//", '', $requestUri);
     $page_title = preg_replace('/_/', ' ', $filePath);
     // now put it all together
-    $absFilePath = "$baseDir/$project/kdata/documentation/$filePath";
+    $absDocumentPath = "$baseDir/$project/kdata/documentation/$filePath";
     /**
        Open with the standard Dog Food Software page header and opening. This will be
        parameterized at some point before the release of 1.0.
@@ -46,8 +46,27 @@ else {
     $pageTitle = "Dog Food Software || $project/$page_title";
     $headerTitle = "$project/$page_title";
     $minifyBundle = 'kibblesCore';
-    
-    $contents = file_get_contents($absFilePath);
+    /**
+       A Kwiki document can be either an HTML snippet or a directory
+       containing an HTML snippet of the same name and zero or more document
+       resources. A document resource is any image, audio file, video,
+       etc. which is essentially part of the document. This is oppossed to a
+       file referenced or included by the document but which has (conceptual)
+       indepndent existence outside th. ducemnt. Functionally, it really
+       doesn't matter. The organization of files as part of a document set is
+       a matter of practical design.
+     */
+    if (is_dir($absDocumentPath)) { // it's a document set
+	$snippet = $absDocumentPath.'/'.basename($absDocumentPath);
+	$contents = file_get_contents($snippet);
+    }
+    else // it's a file and therefore a simple snippet
+	$contents = file_get_contents($absDocumentPath);
+    /**
+       Note, there is no need to handle other document resources (as found in
+       a document directory) because these are caught by Apache and routed
+       directly without involving PHP.
+     */
 }
 require('/home/user/playground/dogfoodsoftware.com/runnable/page_open.php');
 echo $contents;
