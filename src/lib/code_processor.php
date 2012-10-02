@@ -1,4 +1,5 @@
-<?php /**
+<?php
+/**
 <div class="p">
 Script to process documentation requests for PHP files. After processing,
 documentation sections, such as this, will appear part of the HTML page and
