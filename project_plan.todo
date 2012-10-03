@@ -1,0 +1,42 @@
+<todos>
+  <milestone-description name="v0.1.1">
+    Can now process '/bin' scripts.
+  </milestone-description>
+  <milestone-description name="v0.1.2">
+    Can now support 'httpd.conf' files.
+  </milestone-description>
+  <milestone-description name="v0.1.3">
+    Now support collection filtering by project and 'directory' (really just
+    ID prefix, as far as code is concerned, but useful for directory-like
+    filtering)'
+  </milestone-description>
+  <milestone-description name="v0.1.4">
+    Now supports returning un-documented files (outside build and data directories).
+  </milestone-description>
+  <milestone-description name="v0.1.5">
+    Cleanup.
+  </milestone-description>
+  <milestone-description name="v0.1.6">
+    Now supports HTML output for <code>GET:/documentation</code> requests.
+  </milestone-description>
+  <milestone-description name="v0.1.7">
+    Now supports JSON output (summary and TODO information) for
+    <code>GET:/documentation/&lt;document ID&gt;</code> requests.
+  </milestone-description>
+  <milestone-description name="v0.2.0">
+    Can now process all files and produce any output in JSON or HTML as well
+    as provide some useful filters on collection retrieval.
+  </milestone-description>
+
+  <todo id="cleanup_data_and_build_filters"
+	provider-tags="php_developer"
+	classification="v0.1.5">
+    <div class="p">
+      The 'build', 'data', and 'runnable' directory filters are actually to
+      agressive. We do avoid filtering projects by those names, but we should
+      really only filter immediate project dir children, not all directories
+      by those names. E.g., <code>&lt;project&gt;src/lib/build</code> should
+      be processed.
+    </div>
+  </todo>
+</todos>
