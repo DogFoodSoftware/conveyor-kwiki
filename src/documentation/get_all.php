@@ -32,16 +32,17 @@ if (preg_match('/application\/json/', $requested_format)) { // good to go
 		$file_path = substr("$dir_to_explore/$file", strlen('/home/user/playground'));
 		$project = preg_replace('/^\/([^\/]+).*/', '$1', $file_path);
 		$file_path = preg_replace('/^\/[^\/]+\//', '', $file_path);
-		// There are three kinds of files we need to deal with:
-		// 1) Code files we know how to process:
-		if (preg_match('/(\.php|\.js)$/', $file_path))
-		    array_push($files, "/documentation/$project/$file_path");
-		// 2) Wiki pages
-		else if (preg_match('/\/[^\/\.]+$/', $file_path))
+		// can we process the file?
+		/**
+		   <todo>This section has to coordinate with the processing logic. Share the logic.
+		*/
+		if ((preg_match('/(\.php|\.js)$/', $file_path) || // known code type
+		     preg_match('/\/[^\/\.]+$/', $file_path)) && // extension-less file
+		    !(preg_match('/~$/', $file_path) || preg_match('/^#/', $file_path))) // not emacs save file
 		    array_push($files, "/documentation/$project/$file_path");
 		// otherwise it's a document we can't yet process, so it gets dropped
 		/**
-		   <todo>We should log a warning for dropped files.</todo>
+		   <todo>Support filter for 'undocumented non-build, non-data files'.</todo>
 		 */
 	    }
 	}
