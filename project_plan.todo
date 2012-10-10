@@ -27,9 +27,61 @@
     Can now process all files and produce any output in JSON or HTML as well
     as provide some useful filters on collection retrieval.
   </milestone-description>
+  <milestone-description name="v0.2.1">
+    Add 'OR' support to path matching.
+  </milestone-description>
+  <milestone-description name="v0.5.0">
+    Release to GitHub.
+  </milestone-description>
 
-  <todo id="cleanup_data_and_build_filters"
-	provider-tags="php_developer"
+  <todo id="support-project-and-directory-filtering"
+	provider-tags="php-developer"
+	classification="v0.1.3">
+    <div class="p">
+      As far as our REST protocol is concerned, whatever comes after
+      '/documentation' is JUST an ID. However, within the scope of Kwiki and
+      the documentation service itself, we can break up the ID into semantic
+      components.
+    </div>
+    <div class="p">
+      Specifically, document IDs look like path strings, and they more or less
+      are. The first bit defines the porject. The second bit defines the path
+      under the project home dir or within the project specific run-time
+      permanent document directory. (There's probably no write up of this yet,
+      just look at the <code>get.php</code> implementation if you're not
+      familiar with the code.)
+    </div>
+    <div class="p">
+      So, we want to support two filters: <code>match-project</code> and
+      <code>match-path</code>. A <code>match-project</code> filter is really
+      just shorthand for a <code>match-path</code> and
+      <code>match-project=kibbles</code> is equivalent to
+      <code>match-path=/kibbles/*</code>. We support any number of both. We
+      support single character replacement '?' and the glob match '*'. We also
+      support 'not match' semantics by prefixing '!' to the match
+      parameter. Future versions will support <a
+      href="/milestones/kwiki/v0.2.1">boolean expressions</a>, which gets us
+      'OR'. For now, treat multiple instances as constraining, i.e., 'and'
+      together the tests.
+    </div>
+  </todo>
+  <todo id="support-source-filtering"
+	provider-tags="php-developer"
+	classification="v0.1.3"
+	dependencies="support-project-and-directory-filtering">
+    <div class="p">
+      Add a <code>match-type</code> filter. Support multiple instances, all
+      filters are constraining (anded together). For now, want to support
+      single type 'source-code'. So <code>match-type=source-code</code> would
+      return all 'source code' item and <code>match-type=!source-code</code>
+      would return all non-source code items. A source code item is any item
+      not under the <code>/kdata</code> directory in the project home. This
+      filter does not support character matching or type globbing.
+    </div>
+  </todo>
+
+  <todo id="cleanup-data-and-build-filters"
+	provider-tags="php-developer"
 	classification="v0.1.5">
     <div class="p">
       The 'build', 'data', and 'runnable' directory filters are actually to
