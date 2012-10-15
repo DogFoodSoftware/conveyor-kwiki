@@ -34,10 +34,10 @@ if (preg_match('/application\/json/', $requested_format)) { // good to go
 		$file_path = preg_replace('/^\/[^\/]+\//', '', $file_path);
 		// can we process the file?
 		/**
-		   <todo>This section has to coordinate with the processing logic. Share the logic.
+		   <todo>This section has to coordinate with the processing logic. Share the logic.</todo>
 		*/
 		if ((preg_match('/(\.php|\.js)$/', $file_path) || // known code type
-		     preg_match('/\/[^\/\.]+$/', $file_path)) && // extension-less file
+		     preg_match('|/documentation/kdata/.*/[^/\.]+$|', $file_path)) && // extension-less file in /kdata/documentation sub-dir
 		    !(preg_match('/~$/', $file_path) || preg_match('/^#/', $file_path))) // not emacs save file
 		    array_push($files, "/documentation/$project/$file_path");
 		// otherwise it's a document we can't yet process, so it gets dropped

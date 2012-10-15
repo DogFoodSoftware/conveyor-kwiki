@@ -84,6 +84,7 @@ as we process them.
 */
 $minExpandSize = 5;
 $inDoc = false; // track state
+$doc_style = 'unknown'; // can be 'unknown', 'plain', or 'html'
 $i = 0; // count lines
 $codeCount = 0;
 $currCodeId = null;
@@ -106,11 +107,12 @@ function codeClose($codeCount, $currCodeId) {
 }
 foreach ($lines as $line) {
     // first, process the state changes
-    if (preg_match('/^\s*(<\?php\s+)?\/\*\*\s*$/', $line)) {
+    if (preg_match('|^\s*(<\?php\s+)?/\*\*\s*$|', $line)) {
 	$inDoc = true;
+	$doc_style = 'unknown';
 	if ($i > 0) codeClose($codeCount, $currCodeId);
     }
-    else if ($inDoc && preg_match('/^\s*\*\/(\s+\?>)?\s*$/', $line)) {
+    else if ($inDoc && preg_match('#^\s*\*{1,}/(\s+\?>)?($|.+)#', $line)) { // TODO: this will swallow up anything else on the line
         // we only want to open a code block if there's any code left... in
         // other words, check for last line or last line blank (this isn't
         // foolproof but allows us to work around the issue for now)
@@ -121,7 +123,7 @@ foreach ($lines as $line) {
 	$inDoc = false;
 	$codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
     }
-    else if ($i == 0) {
+    else if ($i == 0) { // if we don't start with the special <?php /**, then the first line is treated as code
 	$currCodeId = 'codeBlock'.$i;
 	echo '<div class="prettyprintBox"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 1).'">'."\n";
 	$codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
@@ -129,8 +131,28 @@ foreach ($lines as $line) {
     }
     // Otherwise, process the line according to the state. In doc-mode, remove
     // leading stars and spaces to make compatibla with Java-style docs set-off.
-    else if ($inDoc) echo preg_replace('/^\s*\*?\s*/', '', $line)."\n";
-    else echo htmlspecialchars($line)."\n";
+    else if ($inDoc) {
+	/**
+	 * <div class="p">
+	 * We try to guess whether the documentatino is embedded HTML or
+	 * 'plain' text. If HTML, we expect proper escaping. If Plain, we do
+	 * the escraping.
+	 * </div>
+	 */
+	if ($doc_style == 'unknown' && preg_match('/\s*\*?\s*</', $line))
+	    $doc_style = 'html';
+	else if ($doc_style == 'unknown' && preg_match('/\s*\*?\s*[^<]/', $line)) {
+	    $doc_style = 'plain';
+	}
+
+	// strip off leading '*' to make compatible with JavaDoc style
+	$real_line = preg_replace('/^\s*\*?\s*/', '', $line);
+
+	if ($doc_style == 'plain')
+	    echo htmlspecialchars($real_line)."\n";
+	else echo $real_line."\n";
+    }
+    else echo htmlspecialchars($line)."\n"; // in code
     $i += 1;
     if (!$inDoc) $codeCount += 1;
 }
@@ -146,9 +168,9 @@ echo '
 ';
 require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
 /**
-<!-- it's a bit of a hack injecting another section at the moment; have to --
-  -- close the implicit blurb summary div here, but not the explicit one later --
-  -- blurb summary close bacuse that will be done by the php-processor itself -->
+<!-- it's a bit of a hack injecting another section at the moment; have to 
+     close the implicit blurb summary div here, but not the explicit one later 
+     blurb summary close bacuse that will be done by the php-processor itself -->
 	  </div>
 	<div class="grid_12 blurbSummary">
 	  <div class="blurbTitle">
@@ -173,4 +195,5 @@ now.
   the drag handle. I.e., the drag handle element must not have any (visible)
   children.
 </div>
-*/ ?>
+*/
+?>
