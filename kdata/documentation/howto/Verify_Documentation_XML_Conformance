@@ -1,0 +1,21 @@
+<div class="grid_12 blurbSummary">
+  <div class="p">
+    Kibbles documentation is generated from HTML snippets and / or HTML
+    embedded in line with code, combined with thin processing logic and
+    templates, to produce HTML5 pages. In order that these pages themselves be
+    easily consumed as data input, it is important that all pages be XML
+    compliant.
+  </div>
+  <div class="p">
+    <span data-todo="Implement this. There's a fair amount of planning
+    remaining on all the details of how we want to handle testing. It's clear
+    kibbles instances should be
+    self-testing."><code>/self-test/kwiki/all-pages-are-valid-xml</code> will
+    give the current status WRT to compliance on this issue.</span>
+    Unfortunately, the built in parsers we currently use don't give great
+    information on what the problem is. So far, the best solution to fixing
+    compliance issues is to copy the source into an online 3rd party
+    validator. We like
+    the <a href="http://www.w3schools.com">w3schools.com</a> tool just fine.
+  </div>
+</div>

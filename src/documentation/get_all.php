@@ -7,7 +7,7 @@
 */
 $requested_format = $_SERVER['HTTP_ACCEPT'];
 if (preg_match('/application\/json/', $requested_format)) { // good to go
-    $files = array(); // where we collect answer
+    $urls = array(); // where we collect answer
     $frontier = array();
     array_push($frontier, '/home/user/playground');
 
@@ -30,16 +30,21 @@ if (preg_match('/application\/json/', $requested_format)) { // good to go
 	    else {// add URI path that corresponds to file to result
 		// first, strip the base
 		$file_path = substr("$dir_to_explore/$file", strlen('/home/user/playground'));
-		$project = preg_replace('/^\/([^\/]+).*/', '$1', $file_path);
-		$file_path = preg_replace('/^\/[^\/]+\//', '', $file_path);
+		$project = preg_replace('/^\/([^\/]+).*/', '$1', $file_path); // take first segment as project
+		$file_path = preg_replace('/^\/[^\/]+\//', '', $file_path); // remove first segment from file_path
 		// can we process the file?
 		/**
 		   <todo>This section has to coordinate with the processing logic. Share the logic.</todo>
 		*/
-		if ((preg_match('/(\.php|\.js)$/', $file_path) || // known code type
-		     preg_match('|/documentation/kdata/.*/[^/\.]+$|', $file_path)) && // extension-less file in /kdata/documentation sub-dir
-		    !(preg_match('/~$/', $file_path) || preg_match('/^#/', $file_path))) // not emacs save file
-		    array_push($files, "/documentation/$project/$file_path");
+		if (!(preg_match('/~$/', $file_path) || preg_match('/^#/', $file_path))) { // not emacs save file
+		    if (preg_match('|kdata/documentation/[^\.]+$|', $file_path)) {
+			$web_path = preg_replace('|kdata/documentation/|', '', $file_path);
+			$web_path = "/documentation/$project/$web_path";
+			array_push($urls, $web_path);
+		    }
+		    else if (preg_match('/(\.php|\.js)$/', $file_path))
+			array_push($urls, "/documentation/$project/$file_path");
+		}
 		// otherwise it's a document we can't yet process, so it gets dropped
 		/**
 		   <todo>Support filter for 'undocumented non-build, non-data files'.</todo>
@@ -51,7 +56,7 @@ if (preg_match('/application\/json/', $requested_format)) { // good to go
 	$in_projects = true;
     }
 
-    echo json_encode($files, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    echo json_encode($urls, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
 }
 else header("HTTP/1.0 406 Cannot satisfy requested response format.");
 ?>
