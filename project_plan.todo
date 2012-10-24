@@ -34,6 +34,22 @@
     Release to GitHub.
   </milestone-description>
 
+  <todo id="support-project-plan-todo-files"
+	provider-tags="php-developer">
+    <div class="p">
+      Open <code>kwiki/src/documentation/get_all.php</code>. Look for where
+      the list of URLs (which should be URIs, I think, but never mind that for
+      now) are build up. Search for '.js'. Add '.todo' to this, and test, I
+      think that should be enough to get the files listed in the
+      <code>GET:/documentation</code> results.
+    </div>
+    <div class="p">
+      Once that's working, we need to output the files in from the
+      <code>kwiki/src/documentation/get.php</code>. For now, just spit them
+      out as is. We'll work on formatting them in a bit.
+    </div>
+  </todo>
+
   <todo id="support-project-and-directory-filtering"
 	provider-tags="php-developer"
 	classification="v0.1.3">
