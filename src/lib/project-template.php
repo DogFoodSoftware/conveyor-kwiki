@@ -102,13 +102,13 @@ EOT;
   <div class="p">
     The files are annotated with CSS style c lasses 'second', 'third',
     'fourth', and 'eight' (TODO: should be 'eighth') according to a modulo
-    test.<!-- note: Notice that any given item may have multiple
+    test.<span class="note">Notice that any given item may have multiple
     designations. The eighth item, for instance, is also a second and fourth
-    item. --> This is used in the adaptive layout to determine where to insert
-    breaks. E.g., in a relatively narrow screen, allowing for two colomns, we
-    would break after every 'second' item. In a very wide screen, we might
-    break after every eighth. This is laid out as an 8 column sub-section of a
-    grid 12 layout, and so 8 is as fine as it gets.
+    item.</span> This is used in the adaptive layout to determine where to
+    insert breaks. E.g., in a relatively narrow screen, allowing for two
+    colomns, we would break after every 'second' item. In a very wide screen,
+    we might break after every eighth. This is laid out as an 8 column
+    sub-section of a grid 12 layout, and so 8 is as fine as it gets.
   </div>
   <div class="p">
     The <code>listFile()</code> determines the CSS classes as described above
@@ -117,7 +117,7 @@ EOT;
 */
 function listFile($file, $relPath, $i) {
   global $project;
-  $style = ($i % 8) == 0 ? 'eight ' : '';
+  $style = ($i % 8) == 0 ? 'eighth ' : '';
   if ($i % 4 == 0) $style .= 'fourth ';
   if ($i % 3 == 0) $style .= 'third ';
   if ($i % 2 == 0) $style .= 'second';
@@ -153,9 +153,9 @@ function listDir($title, $dir) {
   $dh = opendir($dir);
   while (false !== ($file = readdir($dh))) {
     if (!preg_match('/^\./', $file) && !preg_match('/~$/', $file)) {
-      if (is_dir("$dir/$file"))
-        $dirs[] = "$dir/$file";
-      else $files[] = $file;
+	if (is_dir("$dir/$file") && !is_file("$dir/$file/$file"))
+	    $dirs[] = "$dir/$file";
+	else $files[] = $file;
     }
   }
   sort($files);
