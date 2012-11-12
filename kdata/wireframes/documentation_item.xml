@@ -1,0 +1,7 @@
+<wireframe>
+  <media-width size-groups="oversized desktop landscape-tablet phone" colcount="12">
+    <fixed-grid span="12">
+      <widget name="/widgets/documentation/page-display" />
+    </fixed-grid>
+  </media-width>
+</wireframe>
