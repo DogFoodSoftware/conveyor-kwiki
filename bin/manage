@@ -1,0 +1,6 @@
+#!/bin/sh
+
+source /home/user/playground/kibbles/src/include/manage-lib.sh
+
+HTTPD_CONF=/home/user/playground/kwiki/conf/kwiki.httpd.conf
+. /home/user/playground/apache-httpd/src/apache_service_manage.sh
