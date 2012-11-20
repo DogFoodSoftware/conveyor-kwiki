@@ -19,18 +19,9 @@ $baseDir = '/home/user/playground';
 
 // TODO: are we stepping on the 'get_all' convention? Pick a way and go with it or document why not
 if ($requestUri == "/documentation/$project") {
-    // then we want to index the project concepts
-    $pageTitle = "Dog Food Software || $project documentation ";
-    $headerTitle = "$project documentation";
-    $minifyBundle = 'documentationIndex';
-
-    $projectPath = "$baseDir/$project/kdata/documentation";
-    $contents =<<<EOT
-<div class="grid_12 blurbSummary">
-  <div class="blurbTitle">Index</div>
-  <div class="documentationIndex" data-project="$project"></div>
-</div>
-EOT;
+    $documentationGenerator = "/home/user/playground/$project/kdata/documentation/index";
+    if (file_exists($documentationGenerator))
+	require $documentationGenerator;
 }
 else {
     // we will try and retrieve the specific file
@@ -67,8 +58,9 @@ else {
        a document directory) because these are caught by Apache and routed
        directly without involving PHP.
      */
+
+    require('/home/user/playground/dogfoodsoftware.com/runnable/page_open.php');
+    echo $contents;
+    require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
 }
-require('/home/user/playground/dogfoodsoftware.com/runnable/page_open.php');
-echo $contents;
-require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
 ?>
