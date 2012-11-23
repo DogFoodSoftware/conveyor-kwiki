@@ -1,0 +1,6 @@
+#!/bin/bash
+
+PROJECT_DIR=kwiki
+PROJECT_NAME="Kwiki"
+
+source /home/user/playground/kibbles/src/include/manage-lib/service-uninstall-by-src.sh
