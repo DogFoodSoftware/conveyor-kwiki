@@ -12,7 +12,7 @@ $project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $requestUri);
 // common config elements
 $pageDescription = ''; // TODO
 $pageAuthor = 'Liquid Labs, LLC';
-$isaTrail = array('<a href="/projects/">projects</a>', "<a href=\"/projects/$project\">$project</a>");
+$isaTrail = array('<a href="/projects/">projects</a>', "<a href=\"/documentation/$project\">$project</a>");
 $baseDir = '/home/user/playground';
 
 // TODO: SECURITY we're allowing the user to pull up files; need to make sure it's limited to the kdata directory
