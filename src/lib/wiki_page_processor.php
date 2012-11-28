@@ -51,8 +51,10 @@ else {
 	$snippet = $absDocumentPath.'/'.basename($absDocumentPath);
 	$contents = file_get_contents($snippet);
     }
-    else // it's a file and therefore a simple snippet
+    else if (file_exists($absDocumentPath)) // it's a file and therefore a simple snippet
 	$contents = file_get_contents($absDocumentPath);
+    else // it's a link to a file which doesn't yet exist
+	$contents = '<div style="text-align: center">PAGE NOT YET CREATED.</div>';
     /**
        Note, there is no need to handle other document resources (as found in
        a document directory) because these are caught by Apache and routed
