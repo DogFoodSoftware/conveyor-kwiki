@@ -26,7 +26,7 @@ to a file within the 'src' directory of the indicated project. For example:
 require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
 
 if (!isset($doc_rest_id))
-    $doc_rest_id = $_SERVER['REQUEST_URI'];
+    $doc_rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
 $file = basename($doc_rest_id); // used as the page title
 /**
 <div class="p">

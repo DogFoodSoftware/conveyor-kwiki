@@ -24,7 +24,7 @@
   footer template.
 </div>
  */
-$rest_id = $_SERVER['REQUEST_URI'];
+$rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
 /**
 <todo>We are using regexp here for brevity, but it's probably more efficient
  to use substr_compare: http://stackoverflow.com/questions/619610/whats-the-most-efficient-test-of-whether-a-php-string-ends-with-another-string</todo>

@@ -6,9 +6,9 @@ Retrieves a single document.
 */
 ?>
 <?php
-$requestUri = $_SERVER['REQUEST_URI'];
+$doc_rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
 // extract the project
-$project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $requestUri);
+$project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $doc_rest_id);
 // common config elements
 $pageDescription = ''; // TODO
 $pageAuthor = 'Liquid Labs, LLC';
@@ -18,7 +18,7 @@ $baseDir = '/home/user/playground';
 // TODO: SECURITY we're allowing the user to pull up files; need to make sure it's limited to the kdata directory
 
 // TODO: are we stepping on the 'get_all' convention? Pick a way and go with it or document why not
-if ($requestUri == "/documentation/$project") {
+if ($doc_rest_id == "/documentation/$project") {
     $documentationGenerator = "/home/user/playground/$project/kdata/documentation/index";
     if (file_exists($documentationGenerator))
 	require $documentationGenerator;
@@ -26,7 +26,7 @@ if ($requestUri == "/documentation/$project") {
 else {
     // we will try and retrieve the specific file
     // extract the file path
-    $filePath = preg_replace("/^\/documentation\/$project\//", '', $requestUri);
+    $filePath = preg_replace("/^\/documentation\/$project\//", '', $doc_rest_id);
     $page_title = preg_replace('/_/', ' ', $filePath);
     // now put it all together
     $absDocumentPath = "$baseDir/$project/kdata/documentation/$filePath";
