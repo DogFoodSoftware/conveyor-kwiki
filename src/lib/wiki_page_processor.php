@@ -14,15 +14,15 @@ $pageDescription = ''; // TODO
 $pageAuthor = 'Liquid Labs, LLC';
 $isaTrail = array('<a href="/projects/">projects</a>');
 // TODO: build up further isas from path
-$baseDir = '/home/user/playground';
+$base_dir = '/home/user/playground';
 
 // TODO: SECURITY we're allowing the user to pull up files; need to make sure it's limited to the kdata directory
 // we will try and retrieve the specific file
 // extract the file path
-$filePath = preg_replace("/^\/documentation\/$project\/?/", '', $doc_rest_id);
-$page_title = preg_replace('/_/', ' ', $filePath);
+$file_path = preg_replace("/^\/documentation\/$project\/?/", '', $doc_rest_id);
+$page_title = preg_replace('/_/', ' ', $file_path);
 // now put it all together
-$absDocumentPath = "$baseDir/$project/kdata/documentation/$filePath";
+$abs_document_path = "$base_dir/$project/kdata/documentation/$file_path";
 /**
    Open with the standard Dog Food Software page header and opening. This will be
    parameterized at some point before the release of 1.0.
@@ -40,19 +40,20 @@ $minifyBundle = 'kibblesCore';
    organization of files as part of a document set is a matter of practical
    design.
 */
-if (is_dir($absDocumentPath) && strlen($filePath) > 0 && 
-    file_exists("$absDocumentPath/".basename($filePath))) { // it's a document set
-    $snippet = $absDocumentPath.'/'.basename($absDocumentPath);
+if (is_dir($abs_document_path) && strlen($file_path) > 0 && 
+    file_exists("$abs_document_path/".basename($file_path))) { // it's a document set
+    $snippet = $abs_document_path.'/'.basename($abs_document_path);
     $contents = file_get_contents($snippet);
 }
-else if (is_dir($absDocumentPath)) { // it's an index request
-    $contents = '<div class="document-index-widget" data-path="'.$filePath.'"></div>';
+else if (is_dir($abs_document_path)) { // it's an index request
+    $data_path = $project.(strlen($file_path) > 0 ? "/$file_path" : '');
+    $contents = '<div class="document-index-widget" data-path="'.$data_path.'"></div>';
 }
-else if (file_exists($absDocumentPath)) { // it's a file, but what kind?
+else if (file_exists($abs_document_path)) { // it's a file, but what kind?
     // if it's starts with '<?php', treat it as a script
-    $contents = file_get_contents($absDocumentPath);
+    $contents = file_get_contents($abs_document_path);
     if (preg_match('/^<\?php/', $contents)) {
-	require $absDocumentPath;
+	require $abs_document_path;
 	return; // and then exit
     }
     // else fall through to default handling of contents
