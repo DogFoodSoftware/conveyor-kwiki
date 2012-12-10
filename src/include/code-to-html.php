@@ -6,6 +6,15 @@ requests for code files. After processing, documentation sections, such as
 this, will appear part of the HTML page and code chunks between documentation
 will appear as syntax highlighted, numbered blocks.
 </div>
+<div class="p" data-todo="Link to an example.">
+  To process a source code page, embedded HTML elements are extracted and
+  copied directly to the output. The remainder of the source file (more or
+  less non-comment source) is embedded in HTML elements suitable for
+  processing by the 'prettify' JS library. This results in nicely formatted
+  HTML output that interleaves the embedded HTML with 'prettified' source
+  code. <span data-todo="Link to template docs or something.">The output is
+  embedded in the standard header / footer template.</span>
+</div>
 <div class="subHeader">Code Resize Notes</div>
 <div class="p">
 The resize handle must be within the resizable item. It seems there is some

@@ -1,7 +1,8 @@
 <?php
 /**
 <div class="p">
-Retrieves a single document.
+  Retrieves a single wiki page. The referenced page is mapped to a file or
+  directory ('file set') and echoed as is with no further processing.
 </div>
 */
 ?>
