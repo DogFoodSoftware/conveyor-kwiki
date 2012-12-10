@@ -1,14 +1,18 @@
 <?php 
 /**
 <div class="p">
-  Script to process <code>GET</code> requests for specific a single documentation
-  resource. Documentation resources are (currently) always a file, but may be
-  of a one of two types. Specifically, we handle source code files and
-  'standard' wiki pages.
+  Script to process <code>GET</code> requests for a single documentation
+  item. We may distinghuish two primary types of documentation items: files
+  and folders. A request for a folder results in an index of the files and
+  sub-folders within the requested folder. A request for a file results in the
+  file contents. The current implementation supports JSON indexs and HTML
+  files (embedded within the selected site template).
 </div>
 <div class="p">
-  Source code is recognized by the file extension. Standard wiki pages have no
-  extension.
+  Files recongized as source code&mdash;by location and extension&mdash;are
+  formatted and optimized for HTML presentation. Wiki files and file
+  sets&mdash;under the <code>&lt;project&gt;/kdata/documentation</code>
+  directory are encoded as HTML fragments and returned as is.
 </div>
 <div class="p" data-todo="Link to an example.">
   To process a source code page, embedded HTML elements are extracted and

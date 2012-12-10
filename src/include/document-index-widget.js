@@ -1,7 +1,24 @@
 /**
+
  * <div class="p">
- * Generates an index for a given <span data-todo="define and
- * referenece">documentation path</span>. The widget <em>must</em> attempt to contact the <code>/documentation</code> resource 
+ * By default, the widget will <span data-todo="define and link to basic
+ * request protocol">attempt to request</span>
+ * <code>GET:*:/documentation/[folder path]</code> and generate a rendering of
+ * the index from the results. It is also possible to pass in a well formed
+ * index data set directly to the widget.
+ * </div>
+ * <div class="subHeader">Inputs</div>
+ * <div class="p">
+ * The folder path may be specified as part of the element data in a
+ * <code>data-folder-path</code> attribute, or it may be specified as an
+ * option, <code>folder path</code> in instantiating the widget. <span
+ * class="define and link">Standard override rules apply.</span>
+ * </div>
+ * <div class="p">
+
+ * If index data is provided directly to the widget, the default behavior will be suppressed.<span class="note">This does not in-and-of-itself supress the <a href="/documentation/kibbles/ref/Widget_Reference#default-element-binding-and-auto-loading">default binding and auto-loading</a> as the two processes are essentially unrelated; the auto-loading originates from the inclusion of the file itself and is unaware of 'manual' usages of the widget.</span>
+
+ * </div>
 
 If the documentation path does not
  * point to a directory, the widget <em>must</em> add style class

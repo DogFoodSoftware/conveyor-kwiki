@@ -46,8 +46,8 @@ if (is_dir($abs_document_path) && strlen($file_path) > 0 &&
     $contents = file_get_contents($snippet);
 }
 else if (is_dir($abs_document_path)) { // it's an index request
-    $data_path = $project.(strlen($file_path) > 0 ? "/$file_path" : '');
-    $contents = '<div class="document-index-widget" data-path="'.$data_path.'"></div>';
+    $folder_path = $project.(strlen($file_path) > 0 ? "/$file_path" : '');
+    $contents = '<div class="document-index-widget" data-folder-path="'.$folder_path.'"></div>';
 }
 else if (file_exists($abs_document_path)) { // it's a file, but what kind?
     // if it's starts with '<?php', treat it as a script
