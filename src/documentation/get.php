@@ -29,12 +29,35 @@
 </div>
  */
 $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
+$file = basename($rest_id); // used as the page title
+    /**
+       <div class="p">
+         Setup the page template variables common to all documentation item types.
+       </div>
+    */
+$pageTitle = 'Dog Food Software || '.$file;
+$headerTitle = $file;
+$pageDescription = ''; // TODO
+$pageAuthor = 'Liquid Labs, LLC';
+$project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $rest_id);
+/**
+ <span data-todo="process the documentatino $rest_id to determine more
+ complete isa trail">The isa trail is currently incomplete, just points back
+ to projects.</span>
+*/
+$isaTrail = array('<a href="/projects/">projects</a>');
 /**
 <todo>We are using regexp here for brevity, but it's probably more efficient
  to use substr_compare: http://stackoverflow.com/questions/619610/whats-the-most-efficient-test-of-whether-a-php-string-ends-with-another-string</todo>
  */
-if (preg_match('/(.php|.js|.sh)$/', $rest_id))
-    require '/home/user/playground/kwiki/runnable/lib/code_processor.php';
+if (preg_match('/(.php|.js|.sh)$/', $rest_id)) {
+    require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
+    $minifyBundle = 'fileDoc';
+    require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+    require '/home/user/playground/kwiki/runnable/include/code-to-html.php';
+    code_to_html($rest_id);
+    require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
+}
 else // it's a 'standard wiki page'
     require '/home/user/playground/kwiki/runnable/lib/wiki_page_processor.php';
 ?>

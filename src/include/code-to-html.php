@@ -1,4 +1,27 @@
 <?php
+/**
+<div class="p">
+Defines library method <code>code_to_html</code> to process documentation
+requests for code files. After processing, documentation sections, such as
+this, will appear part of the HTML page and code chunks between documentation
+will appear as syntax highlighted, numbered blocks.
+</div>
+<div class="subHeader">Code Resize Notes</div>
+<div class="p">
+The resize handle must be within the resizable item. It seems there is some
+interaction with the PRE element, however, because the container won't resize
+even when the height is left unspecified which should, I believe, result in
+auto-resizing behavior.
+</div>
+<div class="p">
+  One other (seeming) idosyncrosy to note: you can't place the drag-handle image
+  inside the drag handle div, it has to be used as a background to the div;
+  the problem is that if the image is it's own element in the div, you cannot
+  actually grab where the image is, it hides the div and is not itself part of
+  the drag handle. I.e., the drag handle element must not have any (visible)
+  children.
+</div>
+*/
 define('KWIKI_SHOW_SOURCE', 'show source');
 define('KWIKI_HIDE_SOURCE', 'hide source');
 // TODO: in future, support 'collapse source' as well; perhaps turn into bit mask
@@ -20,7 +43,7 @@ function code_to_html($doc_rest_id, $show_source=KWIKI_SHOW_SOURCE) {
        <a href="https://code.google.com/p/google-code-prettify/">Google's pretty print JS</a>.
        </div>
        <div class="p">
-       There are basically two states: 'inDoc' and 'not inDoc', aka: in code. In
+       There are basically two states: '$inDoc' and '!$inDoc' == 'in code'. In
        order to keep the line numbers in the code blocks correct, we count the lines
        as we process them.
        </div>
