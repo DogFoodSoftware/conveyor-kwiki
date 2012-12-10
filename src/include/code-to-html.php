@@ -35,13 +35,7 @@ define('KWIKI_SHOW_SOURCE', 'show source');
 define('KWIKI_HIDE_SOURCE', 'hide source');
 // TODO: in future, support 'collapse source' as well; perhaps turn into bit mask
 
-function code_to_html($doc_rest_id, $show_source=KWIKI_SHOW_SOURCE) {
-    // want file path, start with rest ID
-    $file_path = $doc_rest_id;
-    $file_path = preg_replace('/^\/documentation\//', '', $file_path);
-    $baseDir = '/home/user/playground';
-    $file_path = $baseDir . '/' . $file_path;
-
+function code_to_html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
     echo '<div class="grid_12">'."\n";
     /**
        <div class="p">

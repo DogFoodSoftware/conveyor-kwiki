@@ -32,36 +32,101 @@
 </div>
  */
 $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
+/**
+   Decompose the REST ID to map to a file.
+ */
+$project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $rest_id);
 $file = basename($rest_id); // used as the page title
-    /**
-       <div class="p">
-         Setup the page template variables common to all documentation item types.
-       </div>
-    */
+$base_dir = '/home/user/playground';
+// TODO: SECURITY we're allowing the user to pull up files; need to make sure it's limited to the kdata directory
+// we will try and retrieve the specific file
+// extract the file path
+$file_path = preg_replace("/^\/documentation\/$project\/?/", '', $rest_id);
+$page_title = preg_replace('/_/', ' ', $file_path);
+/**
+   <div class="p">
+   Setup the page template variables common to all documentation item types.
+   </div>
+*/
 $pageTitle = 'Dog Food Software || '.$file;
 $headerTitle = $file;
 $pageDescription = ''; // TODO
 $pageAuthor = 'Liquid Labs, LLC';
-$project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $rest_id);
 /**
  <span data-todo="process the documentatino $rest_id to determine more
  complete isa trail">The isa trail is currently incomplete, just points back
  to projects.</span>
 */
 $isaTrail = array('<a href="/projects/">projects</a>');
-/**
-  <span data-todo>We are using regexp here for brevity, but it's probably more efficient
-   to use substr_compare:
- http://stackoverflow.com/questions/619610/whats-the-most-efficient-test-of-whether-a-php-string-ends-with-another-string</span>
- */
-if (preg_match('/(.php|.js|.sh)$/', $rest_id)) {
-    require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
-    $minifyBundle = 'fileDoc';
-    require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
-    require '/home/user/playground/kwiki/runnable/include/code-to-html.php';
-    code_to_html($rest_id);
+
+function no_page_result() {
+    require('/home/user/playground/dogfoodsoftware.com/runnable/page_open.php');
+    echo '<div style="text-align: center">PAGE .</div>';
     require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
 }
-else // it's a 'standard wiki page'
-    require '/home/user/playground/kwiki/runnable/inclide/wiki-page-processor.php';
+
+/**
+<div class="p">
+  Now we're ready to determine what kind of request we're dealing with and
+  spit out a response. There are a total of five different cases. We end up
+  with a couple more conditional statements because the file mapping varies in
+  some cases so we cannot do the 'exists' test until we know the sub case, and
+  the exists test gets duplicated. We also end up duplicating the template
+  output (<code>page_open.php</code> and <code>page_close.php</code>) in order
+  to avoid reading the contents to a variable, preferring to duplicate the
+  code and echo outputs directly to the results buffer.
+</div>
+ */
+if (preg_match('/(.php|.js|.sh)$/', $rest_id)) { // it's a code page
+    $abs_file_path = "$base_dir/$project/$file_path";
+    if (file_exists($abs_file_path)) {
+	require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
+	$minifyBundle = 'fileDoc';
+	require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+	require '/home/user/playground/kwiki/runnable/include/code-to-html.php';
+	code_to_html($abs_file_path);
+	require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
+    }
+    else no_page_result();
+}
+else { // it's a 'standard wiki page' or index
+    $abs_document_path = "$base_dir/$project/kdata/documentation/$file_path";
+    $minifyBundle = 'kibblesCore';
+    /**
+       <div class="p">
+         Four possibilities remain. The mapped request points directly to a
+         file or file set, which indicates a page request, or the mapped
+         request points to a non-file set directory, indicating a folder index
+         request. In both cases, the mapped request points to something. If
+         the mapped requset cannot be resolved to a valid file or directory,
+         then we output the 'no such page' result.
+       </div>
+     */
+    if (!file_exists($abs_document_path)) no_page_result();
+    else if (is_file($abs_document_path)) {
+	// TODO: small effeciency gain: read first 6 characters of file only, then output file_get_contents() in non-script case
+	// if it's starts with '<?php', treat it as a script
+	$contents = file_get_contents($abs_document_path);
+	if (preg_match('/^<\?php/', $contents))
+	    require $abs_document_path;
+	else { // echo contents of file
+	    require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+	    echo $contents;
+	    require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
+	}
+    }
+    else if (is_dir($abs_document_path) && strlen($file_path) > 0 && 
+	     file_exists("$abs_document_path/".basename($file_path))) { // it's a document set
+	$snippet = $abs_document_path.'/'.basename($abs_document_path);
+	require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+	echo file_get_contents($snippet);
+	require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
+    }
+    else { // must be an index request
+	require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+	$folder_path = $project.(strlen($file_path) > 0 ? "/$file_path" : '');
+	echo '<div class="document-index-widget" data-folder-path="'.$folder_path.'"></div>';
+	require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
+    }
+}
 ?>
