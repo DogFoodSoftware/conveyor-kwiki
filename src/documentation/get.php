@@ -60,11 +60,36 @@ $pageAuthor = 'Liquid Labs, LLC';
 $isaTrail = array('<a href="/projects/">projects</a>');
 
 function no_page_result() {
-    require('/home/user/playground/dogfoodsoftware.com/runnable/page_open.php');
-    echo '<div style="text-align: center">PAGE .</div>';
-    require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
+    global $pageTitle, $headerTitle, $isaTrail, $minifyBundle, $html;
+    $minifyBundle = 'kibblesCore';
+    if ($html) require('/home/user/playground/dogfoodsoftware.com/runnable/page_open.php');
+    echo '<div style="text-align: center">NO SUCH PAGE.</div>';
+    if ($html) require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
 }
 
+/**
+   <div class="p">
+   There are three different formats we potentially support: HTML, partial
+   HTML, and JSON. We go ahead and figure out what's what here, respond with
+   406 if none. <span data-todo="Define and implement">The current accept
+   header processing is pretty half-assed. Long term, the processing will be
+   abstracted and worked into the request processors.</span>
+   </div>
+ */
+$requested_format = $_SERVER['HTTP_ACCEPT'];
+$html_fragment = false;
+$html = false;
+$json = false;
+if (preg_match('|text/html;type=ajax|', $requested_format)) $html_fragment = true;
+else if (preg_match('|text/html|', $requested_format)) $html = true;
+else if (preg_match('|application/json|', $requested_format)) $json = true;
+else if (preg_match(':(\*|text)/(\*|html):', $requested_format) ||
+	 $requested_format == null || strlen($requested_format) == 0)
+    $html = true;
+else {
+    header("HTTP/1.0 406 Cannot satisfy requested response format.");
+    return true;
+}
 /**
 <div class="p">
   Now we're ready to determine what kind of request we're dealing with and
@@ -78,19 +103,27 @@ function no_page_result() {
 </div>
  */
 if (preg_match('/(.php|.js|.sh)$/', $rest_id)) { // it's a code page
+    if ($json) {
+	header("HTTP/1.0 406 Cannot satisfy requested response format.");
+	return true;
+    }
     $abs_file_path = "$base_dir/$project/$file_path";
     if (file_exists($abs_file_path)) {
 	require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
 	$minifyBundle = 'fileDoc';
-	require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
-	require '/home/user/playground/kwiki/runnable/include/code-to-html.php';
+	if ($html)
+	    require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+	if ($html) require '/home/user/playground/kwiki/runnable/include/code-to-html.php';
 	code_to_html($abs_file_path);
-	require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
+	if ($html) require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';
     }
     else no_page_result();
 }
 else { // it's a 'standard wiki page' or index
+    // this is a little wonky; for pages, it's always the $abs_document_path,
+    // but for indexes, it could be either
     $abs_document_path = "$base_dir/$project/kdata/documentation/$file_path";
+    $abs_dir_path = "$base_dir/$project/$file_path";
     $minifyBundle = 'kibblesCore';
     /**
        <div class="p">
@@ -99,34 +132,65 @@ else { // it's a 'standard wiki page' or index
          request points to a non-file set directory, indicating a folder index
          request. In both cases, the mapped request points to something. If
          the mapped requset cannot be resolved to a valid file or directory,
-         then we output the 'no such page' result.
+         then we output the 'no such page' result. <span data-todo="refactor
+         the logic">The requested formats are, specifically the JSON test, is
+         repeated within the block to deal with each type. In 3 cases, the
+         response is the same (HTTP 406). This should be fixed; probably best
+         to deal with it after the accept header support has been improved at
+         the high level first.</span>
        </div>
      */
-    if (!file_exists($abs_document_path)) no_page_result();
+    if (!file_exists($abs_document_path) && !is_dir($abs_dir_path)) {
+	if ($json) {
+	    header("HTTP/1.0 406 Cannot satisfy requested response format.");
+	    return true;
+	}
+	no_page_result();
+    }
     else if (is_file($abs_document_path)) {
+	if ($json) {
+	    header("HTTP/1.0 406 Cannot satisfy requested response format.");
+	    return true;
+	}
 	// TODO: small effeciency gain: read first 6 characters of file only, then output file_get_contents() in non-script case
 	// if it's starts with '<?php', treat it as a script
 	$contents = file_get_contents($abs_document_path);
 	if (preg_match('/^<\?php/', $contents))
 	    require $abs_document_path;
 	else { // echo contents of file
-	    require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+	    if ($html) require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
 	    echo $contents;
-	    require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
+	    if ($html) require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
 	}
     }
     else if (is_dir($abs_document_path) && strlen($file_path) > 0 && 
 	     file_exists("$abs_document_path/".basename($file_path))) { // it's a document set
+	if ($json) {
+	    header("HTTP/1.0 406 Cannot satisfy requested response format.");
+	    return true;
+	}
 	$snippet = $abs_document_path.'/'.basename($abs_document_path);
-	require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+	if ($html) require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
 	echo file_get_contents($snippet);
-	require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
+	if ($html) require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
     }
     else { // must be an index request
-	require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
-	$folder_path = $project.(strlen($file_path) > 0 ? "/$file_path" : '');
-	echo '<div class="document-index-widget" data-folder-path="'.$folder_path.'"></div>';
-	require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
+	if ($json) {
+	    require '/home/user/playground/kwiki/runnable/include/folder-index-lib.php';
+	    $results = index_folder(preg_replace('/_/', ' ', $file), 
+				    is_dir($abs_document_path) ? $abs_document_path : $abs_dir_path);
+	    header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+	    header('Content-type: application/json');    
+	    // $file is the 'folder name'
+	    echo json_encode($results, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+	}
+	else {
+	    $minifyBundle = 'documentationIndex';
+	    if ($html) require '/home/user/playground/dogfoodsoftware.com/runnable/page_open.php';
+	    $folder_path = $project.(strlen($file_path) > 0 ? "/$file_path" : '');
+	    echo '<div class="loading-spinner-widget document-index-widget" data-folder-path="'.$folder_path.'"></div>';
+	    if ($html) require '/home/user/playground/dogfoodsoftware.com/runnable/page_close.php';	
+	}
     }
 }
 ?>
