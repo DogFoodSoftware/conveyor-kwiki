@@ -80,25 +80,22 @@
 		}
 		else if (typeof path_or_index_data === 'string') {
 		    var path = path_or_index_data;
-		    $.ajax({
-			url: '/documentation/',
-			data: 'json',
-			cache: false,
-			data: 'folder_path='+path,
-			success: function(index_data) {
-			    $this.loading_spinner('stop', function() {
-				$this.document_index('render_index', index_data);
-			    });
-			},
-			error: function() {
-			    $this.loading_spinner('stop', function() {
-				/**
-				 * <todo>Make this a template.</todo>
-				 */
-				$this.find('.project-summary').html('Error processing groups request.</div>');
-			    });
-			}
-		    });
+		    $.kibbles_data({url: '/documentation/',
+				    data: 'folder_path='+path,
+				    success: function(index_data) {
+					$this.loading_spinner('stop', function() {
+					    $this.document_index('render_index', index_data);
+					});
+				    },
+				    error: function() {
+					$this.loading_spinner('stop', function() {
+					    /**
+					     * <todo>Make this a template.</todo>
+					     */
+					    $this.find('.project-summary').html('Error processing groups request.</div>');
+					});
+				    }
+				   });
 		}
 		else {
 		    var index_data = path_or_index_data;
