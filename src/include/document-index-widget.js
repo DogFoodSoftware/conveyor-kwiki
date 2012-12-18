@@ -80,21 +80,25 @@
 		}
 		else if (typeof path_or_index_data === 'string') {
 		    var path = path_or_index_data;
-		    $.getJSON('/documentation/',
-			      'folder_path='+path,
-			      function(index_data) {
-				  $this.loading_spinner('stop', function() {
-				      $this.document_index('render_index', index_data);
-				  });
-			      }).
-			error(function() {
+		    $.ajax({
+			url: '/documentation/',
+			data: 'json',
+			cache: false,
+			data: 'folder_path='+path,
+			success: function(index_data) {
+			    $this.loading_spinner('stop', function() {
+				$this.document_index('render_index', index_data);
+			    });
+			},
+			error: function() {
 			    $this.loading_spinner('stop', function() {
 				/**
 				 * <todo>Make this a template.</todo>
 				 */
 				$this.find('.project-summary').html('Error processing groups request.</div>');
 			    });
-			});
+			}
+		    });
 		}
 		else {
 		    var index_data = path_or_index_data;
@@ -110,13 +114,10 @@
 			$file_container = ich.document_index_widget_file_container(index_data);
 			$canvas.append($file_container);
 			$chase_layout = $file_container.find('.chase-layout');
-			for (var j = 0; j < index_data.files.length; j += 1) {
-			    var file = index_data.files[j];
-			    $chase_layout.append(ich.document_index_widget_file({link: 'foo', title: file}));
-			}
-			for (var j = 0; j < index_data.folders.length; j += 1) {
+			for (var j = 0; j < index_data.files.length; j += 1)
+			    $chase_layout.append(ich.document_index_widget_file(index_data.files[j]));
+			for (var j = 0; j < index_data.folders.length; j += 1)
 			    display_files(index_data.folders[j], $file_container);
-			}
 		    };
 
 		    display_files(index_data.data, $canvas);

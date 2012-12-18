@@ -31,8 +31,13 @@ else {
   $base_dir = '/home/user/playground';
   $dir_path = "$base_dir/$folder_path";
 
+  function map_file_data($el) {
+      return array('link' => $el, 'title' => basename($el));
+  }
+
   function listDir($dir) {
-      $dir_title = preg_replace('|/home/user/playground/|', '', $dir);
+      $folder_path = preg_replace('|/home/user/playground/|', '', $dir);
+      $dir_title = $folder_path;
       $dir_title = explode('/', $dir_title);
       if (count($dir_title) == 1) $dir_title = $dir_title[0];
       else $dir_title = '<span class="folder-parents">'.implode('/', array_slice($dir_title, 0, -1)).'</span>/'.$dir_title[count($dir_title) - 1];
@@ -44,12 +49,13 @@ else {
 	  if (!preg_match('/^\./', $file) && !preg_match('/~$/', $file)) {
 	      if (is_dir("$dir/$file") && !is_file("$dir/$file/$file"))
 		  $dirs[] = "$dir/$file";
-	      else $files[] = $file;
+	      else $files[] = "$folder_path/$file";
 	  }
       }
       sort($files);
       sort($dirs);
-      $result['files'] = $files;
+      // title and link
+      $result['files'] = array_map('map_file_data', $files);
 
       if (count($files) > 0) {
 	  $i = 1;
