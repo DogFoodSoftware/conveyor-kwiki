@@ -16,8 +16,17 @@ array('/home/user/playground/google-code-prettify/runnable/lib/prettify.css',
 	'/home/user/playground/kibbles/runnable/lib/google-code-prettify/df-pretty.css');
 $fileDocCss = array_merge($kibblesCoreCss, $fileDocCss);
 
+$fileIndexJs = array('/home/user/playground/kwiki/runnable/include/document-index-widget.js');
+$fileIndexJs = array_merge($kibblesCoreJs, $fileIndexJs);
+
+// $fileIndexCss = array('/home/user/playground/kwiki/runnable/include/document-index-widget.css');
+$fileIndexCss = array();
+$fileIndexCss = array_merge($kibblesCoreCss, $fileIndexCss);
+
 return array('documentationIndexJs' => $documentationIndexJs,
              'documentationIndexCss' => $documentationIndexCss,
 	     'fileDocJs' => $fileDocJs,
-	     'fileDocCss' => $fileDocCss);
+	     'fileDocCss' => $fileDocCss,
+	     'fileIndexJs' => $fileIndexJs,
+	     'fileIndexCss' => $fileIndexCss);
 ?>

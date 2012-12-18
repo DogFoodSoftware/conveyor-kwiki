@@ -1,5 +1,4 @@
 /**
-
  * <div class="p">
  * By default, the widget will <span data-todo="define and link to basic
  * request protocol">attempt to request</span>
@@ -43,7 +42,7 @@
      */
     ich.addTemplate('document_index_widget', '<div class="document-index"></div>');
     ich.addTemplate('document_index_widget_file_container',
-		    '<div class="chase-layout medium-slug"></div>');
+		    '<div class="blurbSummary grid_12"><div class="blurbTitle">{{folder}}</div><div class="chase-layout medium-slug"></div></div>');
     ich.addTemplate('document_index_widget_file',
 		    '<a href="{{link}}">{{title}}</a>');
     
@@ -81,7 +80,8 @@
 		}
 		else if (typeof path_or_index_data === 'string') {
 		    var path = path_or_index_data;
-		    $.getJSON('/documentation/' + path,
+		    $.getJSON('/documentation/',
+			      'folder_path='+path,
 			      function(index_data) {
 				  $this.loading_spinner('stop', function() {
 				      $this.document_index('render_index', index_data);
@@ -98,7 +98,7 @@
 		}
 		else {
 		    var index_data = path_or_index_data;
-		    var $canvas = $this.find('document-index');
+		    var $canvas = $this.find('.document-index');
 		    /**
 		     * Here's what we do: list immediate files directly, then
 		     * do a depth first search of the folders; first level
@@ -106,20 +106,19 @@
 		     * blurbTitle. After that, it's subheaders and no further
 		     * nesting.
 		     */
-		    var display_files = function(index_data, $canvas) {
-			$file_container = ich.document_index_widget_file_container();
+		    var display_files = function(index_data) {
+			$file_container = ich.document_index_widget_file_container(index_data);
 			$canvas.append($file_container);
-			for (var j = 0; j < index_data.files.length; j += 0) {
+			for (var j = 0; j < index_data.files.length; j += 1) {
 			    var file = index_data.files[j];
-			    ich.document_index_widget_file({link: 'foo', title: file});
+			    $canvas.append(ich.document_index_widget_file({link: 'foo', title: file}));
+			}
+			for (var j = 0; j < index_data.folders.length; j += 1) {
+			    display_files(index_data.folders[j]);
 			}
 		    };
-		    var display_subsection = function() {
-		    };
 
-		    display_files(index_data, $canvas);
-		    for (var i = 0; i < index_data.folders.length; i += 1)
-			display_subsection(index_data.folders[i], $canvas);
+		    display_files(index_data.data);
 		}
 	    });
 	}
