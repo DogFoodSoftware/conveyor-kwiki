@@ -19,8 +19,8 @@ $fileDocCss = array_merge($kibblesCoreCss, $fileDocCss);
 $fileIndexJs = array('/home/user/playground/kwiki/runnable/include/document-index-widget.js');
 $fileIndexJs = array_merge($kibblesCoreJs, $fileIndexJs);
 
-// $fileIndexCss = array('/home/user/playground/kwiki/runnable/include/document-index-widget.css');
-$fileIndexCss = array('/home/user/playground/kibbles/runnable/include/chase-layout-widget.css');
+$fileIndexCss = array('/home/user/playground/kwiki/runnable/include/document-index-widget.css',
+		      '/home/user/playground/kibbles/runnable/include/chase-layout-widget.css');
 $fileIndexCss = array_merge($kibblesCoreCss, $fileIndexCss);
 
 return array('documentationIndexJs' => $documentationIndexJs,

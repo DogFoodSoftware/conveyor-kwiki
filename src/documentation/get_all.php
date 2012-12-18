@@ -15,7 +15,7 @@ if (respond_in_html()) {
     global $minifyBundle;
     $minifyBundle = 'fileIndex';
     require('/home/user/playground/kibbles/runnable/include/interface-response-lib.php');
-    echo_interface("<div class=\"document-index-widget loading-spinner-widget\" data-folder-path=\"$folder_path\"></div>");
+    echo_interface("<div class=\"document-index-widget loading-spinner-widget grid_12\" data-folder-path=\"$folder_path\"></div>");
 }
 else {
   require('/home/user/playground/kibbles/runnable/include/data-response-lib.php');
@@ -32,7 +32,11 @@ else {
   $dir_path = "$base_dir/$folder_path";
 
   function listDir($dir) {
-      $result = array('folder' => preg_replace('|/home/user/playground/|', '', $dir));
+      $dir_title = preg_replace('|/home/user/playground/|', '', $dir);
+      $dir_title = explode('/', $dir_title);
+      if (count($dir_title) == 1) $dir_title = $dir_title[0];
+      else $dir_title = '<span class="folder-parents">'.implode('/', array_slice($dir_title, 0, -1)).'</span>/'.$dir_title[count($dir_title) - 1];
+      $result = array('folder' => $dir_title);
       $files = array();
       $dirs = array();
       $dh = opendir($dir);

@@ -42,7 +42,7 @@
      */
     ich.addTemplate('document_index_widget', '<div class="document-index"></div>');
     ich.addTemplate('document_index_widget_file_container',
-		    '<div class="blurbSummary grid_12"><div class="blurbTitle">{{folder}}</div><div class="chase-layout medium-slug"></div></div>');
+		    '<div class="blurbSummary"><div class="clear"></div><div class="blurbTitle">{{{folder}}}</div><div class="chase-layout medium-slug"></div></div>');
     ich.addTemplate('document_index_widget_file',
 		    '<div class="slug"><a href="{{link}}">{{title}}</a></div><div class="slug-spacer"></div>');
     
@@ -106,7 +106,7 @@
 		     * blurbTitle. After that, it's subheaders and no further
 		     * nesting.
 		     */
-		    var display_files = function(index_data) {
+		    var display_files = function(index_data, $canvas) {
 			$file_container = ich.document_index_widget_file_container(index_data);
 			$canvas.append($file_container);
 			$chase_layout = $file_container.find('.chase-layout');
@@ -115,11 +115,11 @@
 			    $chase_layout.append(ich.document_index_widget_file({link: 'foo', title: file}));
 			}
 			for (var j = 0; j < index_data.folders.length; j += 1) {
-			    display_files(index_data.folders[j]);
+			    display_files(index_data.folders[j], $file_container);
 			}
 		    };
 
-		    display_files(index_data.data);
+		    display_files(index_data.data, $canvas);
 		}
 	    });
 	}

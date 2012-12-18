@@ -1,0 +1,8 @@
+.document-index-widget .blurbSummary .blurbTitle {
+    text-align: left;
+}
+
+.document-index-widget .blurbSummary .blurbTitle .folder-parents {
+    color: #888;
+    font-weight: normal;
+}
