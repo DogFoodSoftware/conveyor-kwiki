@@ -44,7 +44,7 @@
     ich.addTemplate('document_index_widget_file_container',
 		    '<div class="blurbSummary grid_12"><div class="blurbTitle">{{folder}}</div><div class="chase-layout medium-slug"></div></div>');
     ich.addTemplate('document_index_widget_file',
-		    '<a href="{{link}}">{{title}}</a>');
+		    '<div class="slug"><a href="{{link}}">{{title}}</a></div><div class="slug-spacer"></div>');
     
     methods = {
 	init : function(options) {
@@ -109,9 +109,10 @@
 		    var display_files = function(index_data) {
 			$file_container = ich.document_index_widget_file_container(index_data);
 			$canvas.append($file_container);
+			$chase_layout = $file_container.find('.chase-layout');
 			for (var j = 0; j < index_data.files.length; j += 1) {
 			    var file = index_data.files[j];
-			    $canvas.append(ich.document_index_widget_file({link: 'foo', title: file}));
+			    $chase_layout.append(ich.document_index_widget_file({link: 'foo', title: file}));
 			}
 			for (var j = 0; j < index_data.folders.length; j += 1) {
 			    display_files(index_data.folders[j]);

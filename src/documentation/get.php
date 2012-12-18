@@ -50,6 +50,7 @@ if (file_exists($code_path)) { // it's a code page
 }
 else if (file_exists($doc_path)) { // it's a 'standard wiki page'
     // TODO: small effeciency gain: read first 6 characters of file only, then output file_get_contents() in non-script case
+    if (is_dir($doc_path)) $doc_path = "$doc_path/".basename($doc_path);
     $contents = file_get_contents($doc_path);
     // if it's starts with '<?php', treat it as a script and be done
     if (preg_match('/^<\?php/', $contents)) {
@@ -61,10 +62,12 @@ else if (file_exists($doc_path)) { // it's a 'standard wiki page'
 }
 else {
     // remember, this script is a little idiomatic, we set up a proper
-    // response for HTML with $contents and JSON with the message update    
-    $content = $no_page_content;
-    require_once('/home/user/playground/kibbles/runnable/include/data-response-lib.php');
-    add_global_message("No such document: $rest_id.");
+    // response for HTML with $contents and JSON with the message update
+    if (respond_in_html()) $contents = $no_page_content;
+    else {
+	require_once('/home/user/playground/kibbles/runnable/include/data-response-lib.php');
+	add_global_message("No such document: $rest_id.");
+    }
 }
 if (respond_in_html()) {
     global $pageTitle,$pageTitle;
