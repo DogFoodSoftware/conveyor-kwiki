@@ -26,6 +26,7 @@ function index_folder($results, $directory_path) {
 	sort($results['folders']);
 	sort($results['files']);
 
+	error_log('foo');
 	return $results;
     }
     

@@ -42,6 +42,10 @@
      * container</a>.
      */
     ich.addTemplate('document_index_widget', '<div class="document-index"></div>');
+    ich.addTemplate('document_index_widget_file_container',
+		    '<div class="chase-layout medium-slug"></div>');
+    ich.addTemplate('document_index_widget_file',
+		    '<a href="{{link}}">{{title}}</a>');
     
     methods = {
 	init : function(options) {
@@ -94,6 +98,28 @@
 		}
 		else {
 		    var index_data = path_or_index_data;
+		    var $canvas = $this.find('document-index');
+		    /**
+		     * Here's what we do: list immediate files directly, then
+		     * do a depth first search of the folders; first level
+		     * generates a full subsection, blurbSummary with
+		     * blurbTitle. After that, it's subheaders and no further
+		     * nesting.
+		     */
+		    var display_files = function(index_data, $canvas) {
+			$file_container = ich.document_index_widget_file_container();
+			$canvas.append($file_container);
+			for (var j = 0; j < index_data.files.length; j += 0) {
+			    var file = index_data.files[j];
+			    ich.document_index_widget_file({link: 'foo', title: file});
+			}
+		    };
+		    var display_subsection = function() {
+		    };
+
+		    display_files(index_data, $canvas);
+		    for (var i = 0; i < index_data.folders.length; i += 1)
+			display_subsection(index_data.folders[i], $canvas);
 		}
 	    });
 	}

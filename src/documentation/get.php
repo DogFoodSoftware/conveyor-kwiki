@@ -2,15 +2,15 @@
 /**
 <div class="p">
   Script to process <code>GET</code> requests for a single documentation
-  item. We may distinghuish two primary types of documentation items: pages
-  and folders. A request for a file results in the file contents. A request
-  for a folder results in an index of the files and sub-folders within the
-  requested folder. The current implementation supports JSON indexs and HTML
-  files (embedded within the selected site template).
+  item. Documentation items are generally of two types: content pages and
+  doc-ified source code artifacts.
 </div>
+<div class="blurbSummary grid_12">
 <div class="p">
   Pages recongized as source code&mdash;by location and extension&mdash;are
-  formatted and optimized for HTML presentation. Wiki pages &mdash;under the
+  formatted and optimized for HTML presentation. 
+
+Wiki pages &mdash;under the
   <code>&lt;project&gt;/kdata/documentation</code> directory are encoded as
   HTML fragments and returned as is.
 </div>
