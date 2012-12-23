@@ -5,7 +5,7 @@
   moment, we only handle JSON requests.
 </div>
 */
-require('/home/user/playground/kibbles/runnable/include/accept-processing-lib.php');
+require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
 setup_for_get();
 // it stops here with a 406 if the client ain't buying what we're selling
 process_accept_header();
