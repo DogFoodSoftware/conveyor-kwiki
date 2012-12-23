@@ -1,4 +1,4 @@
 #!/bin/sh
 
 HTTPD_CONF=/home/user/playground/kwiki/conf/kwiki.httpd.conf
-source /home/user/playground/kibbles/runnable/include/manage-lib/service-start-std-apache.sh
+source /home/user/playground/kibbles/runnable/lib/manage-lib/service-start-std-apache.sh
