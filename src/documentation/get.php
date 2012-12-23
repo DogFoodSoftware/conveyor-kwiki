@@ -71,7 +71,7 @@ else {
 }
 if (respond_in_html()) {
     global $pageTitle,$pageTitle;
-    require_once('/home/user/playground/kibbles/runnable/include/interface-response-lib.php');
+    require_once('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
     $pageTitle = 'Dog Food Software || '.$file_title;
     $headerTitle = $file_title;
     // $minifyDoc already set

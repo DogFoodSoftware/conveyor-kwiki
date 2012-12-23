@@ -14,7 +14,7 @@ extract($_GET, EXTR_SKIP);
 if (respond_in_html()) {
     global $minifyBundle;
     $minifyBundle = 'fileIndex';
-    require('/home/user/playground/kibbles/runnable/include/interface-response-lib.php');
+    require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
     echo_interface("<div class=\"document-index-widget loading-spinner-widget grid_12\" data-folder-path=\"$folder_path\"></div>");
 }
 else {
