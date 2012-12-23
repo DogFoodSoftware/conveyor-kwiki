@@ -6,8 +6,8 @@ $documentationIndexJs = array_merge($kibblesCoreJs, $documentationIndexJs);
 
 $documentationIndexCss = $kibblesCoreCss;
 
-// jquery-ui-current is used for the '.resize()' allowing us to resize code blocks
-$fileDocJs = array('/home/user/playground/kibbles/runnable/include/jquery-ui-current.min.js',
+// jquery-ui is used for the '.resize()' allowing us to resize code blocks
+$fileDocJs = array('/home/user/playground/kibbles/runnable/lib/third-party/jquery-ui-1.8.21.custom.min.js',
 	   '/home/user/playground/google-code-prettify/runnable/lib/prettify.js');
 $fileDocJs = array_merge($kibblesCoreJs, $fileDocJs);
 
