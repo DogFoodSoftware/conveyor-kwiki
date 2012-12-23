@@ -20,7 +20,7 @@ $fileIndexJs = array('/home/user/playground/kwiki/runnable/include/document-inde
 $fileIndexJs = array_merge($kibblesCoreJs, $fileIndexJs);
 
 $fileIndexCss = array('/home/user/playground/kwiki/runnable/include/document-index-widget.css',
-		      '/home/user/playground/kibbles/runnable/include/chase-layout-widget.css');
+		      '/home/user/playground/kibbles/runnable/ui/chase-layout-widget.css');
 $fileIndexCss = array_merge($kibblesCoreCss, $fileIndexCss);
 
 return array('documentationIndexJs' => $documentationIndexJs,

@@ -65,7 +65,7 @@ else {
     // response for HTML with $contents and JSON with the message update
     if (respond_in_html()) $contents = $no_page_content;
     else {
-	require_once('/home/user/playground/kibbles/runnable/include/data-response-lib.php');
+	require_once('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
 	add_global_message("No such document: $rest_id.");
     }
 }
@@ -78,7 +78,7 @@ if (respond_in_html()) {
     echo_interface($contents);
 }
 else {
-    require_once('/home/user/playground/runnable/include/data-response-lib.php');
+    require_once('/home/user/playground/runnable/lib/data-response-lib.php');
     handle_errors();
     final_result_ok("Document retrieved.", $content);
 }

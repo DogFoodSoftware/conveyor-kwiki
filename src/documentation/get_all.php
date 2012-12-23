@@ -18,7 +18,7 @@ if (respond_in_html()) {
     echo_interface("<div class=\"document-index-widget loading-spinner-widget grid_12\" data-folder-path=\"$folder_path\"></div>");
 }
 else {
-  require('/home/user/playground/kibbles/runnable/include/data-response-lib.php');
+  require('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
   // check parameters if any
   // extract($_GET, EXTR_SKIP);
   // handle_errors();
