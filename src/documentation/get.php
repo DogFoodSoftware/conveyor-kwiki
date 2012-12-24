@@ -70,11 +70,11 @@ else {
     }
 }
 if (respond_in_html()) {
-    global $pageTitle,$pageTitle;
+    global $pageTitle;
     require_once('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
     $pageTitle = 'Dog Food Software || '.$file_title;
     $headerTitle = $file_title;
-    // $minifyDoc already set
+    // $minifyBundle already set
     echo_interface($contents);
 }
 else {
