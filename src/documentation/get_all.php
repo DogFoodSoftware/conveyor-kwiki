@@ -11,11 +11,12 @@ setup_for_get();
 process_accept_header();
 
 extract($_GET, EXTR_SKIP);
+if (!isset($folder_path)) $folder_path = '/';
 if (respond_in_html()) {
     global $minifyBundle;
     $minifyBundle = 'fileIndex';
     require('/home/user/playground/kibbles/runnable/include/interface-response-lib.php');
-    echo_interface("<div class=\"document-index-widget loading-spinner-widget grid_12\" data-folder-path=\"$folder_path\"></div>");
+    echo_interface("<div class=\"document-index-widget loading-spinner-widget grid_12\" data-folderath-path=\"$folder_path\"></div>");
 }
 else {
   require('/home/user/playground/kibbles/runnable/include/data-response-lib.php');
