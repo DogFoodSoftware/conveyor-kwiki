@@ -3,4 +3,4 @@
 PROJECT_DIR=kwiki
 PROJECT_NAME="Kwiki"
 
-source /home/user/playground/kibbles/src/include/manage-lib/service-uninstall-by-src.sh
+source /home/user/playground/kibbles/src/lib/manage-lib/service-uninstall-by-src.sh

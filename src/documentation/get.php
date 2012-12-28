@@ -18,8 +18,7 @@
   fragments and encoded as is or recognized as PHP scripts and evaluated</a>.
 </div>
  */
-require('/home/user/playground/kibbles/runnable/include/accept-processing-lib.php');
-setup_for_get();
+require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
 // it stops here with a 406 if the client ain't buying what we're selling
 process_accept_header();
 
@@ -65,20 +64,20 @@ else {
     // response for HTML with $contents and JSON with the message update
     if (respond_in_html()) $contents = $no_page_content;
     else {
-	require_once('/home/user/playground/kibbles/runnable/include/data-response-lib.php');
+	require_once('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
 	add_global_message("No such document: $rest_id.");
     }
 }
 if (respond_in_html()) {
-    global $pageTitle,$pageTitle;
-    require_once('/home/user/playground/kibbles/runnable/include/interface-response-lib.php');
+    global $pageTitle;
+    require_once('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
     $pageTitle = 'Dog Food Software || '.$file_title;
     $headerTitle = $file_title;
-    // $minifyDoc already set
+    // $minifyBundle already set
     echo_interface($contents);
 }
 else {
-    require_once('/home/user/playground/runnable/include/data-response-lib.php');
+    require_once('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
     handle_errors();
     final_result_ok("Document retrieved.", $content);
 }

@@ -6,8 +6,8 @@ $documentationIndexJs = array_merge($kibblesCoreJs, $documentationIndexJs);
 
 $documentationIndexCss = $kibblesCoreCss;
 
-// jquery-ui-current is used for the '.resize()' allowing us to resize code blocks
-$fileDocJs = array('/home/user/playground/kibbles/runnable/include/jquery-ui-current.min.js',
+// jquery-ui is used for the '.resize()' allowing us to resize code blocks
+$fileDocJs = array('/home/user/playground/kibbles/runnable/lib/third-party/jquery-ui-1.8.21.custom.min.js',
 	   '/home/user/playground/google-code-prettify/runnable/lib/prettify.js');
 $fileDocJs = array_merge($kibblesCoreJs, $fileDocJs);
 
@@ -20,7 +20,7 @@ $fileIndexJs = array('/home/user/playground/kwiki/runnable/include/document-inde
 $fileIndexJs = array_merge($kibblesCoreJs, $fileIndexJs);
 
 $fileIndexCss = array('/home/user/playground/kwiki/runnable/include/document-index-widget.css',
-		      '/home/user/playground/kibbles/runnable/include/chase-layout-widget.css');
+		      '/home/user/playground/kibbles/runnable/ui/chase-layout-widget.css');
 $fileIndexCss = array_merge($kibblesCoreCss, $fileIndexCss);
 
 return array('documentationIndexJs' => $documentationIndexJs,

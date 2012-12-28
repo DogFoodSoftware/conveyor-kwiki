@@ -33,7 +33,7 @@ Widget to display documentation index.
       };
 
       var ADAPT_CONFIG = {
-      path: '/kibbles/include/adapt/',
+      path: '/kibbles/lib/third-party/adapt/',
       dynamic: true,
       callback: function(i, width) { setGlobal(i, width); if (panel != null) sizeSlugs(i, width); },
       range: [
