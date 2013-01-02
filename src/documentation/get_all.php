@@ -1,13 +1,29 @@
-<?php
-/**
+<?php /**
 <div class="p">
-  Provides index of documentation. 
+  Provides index of documentation. The index is generated relative to a
+  <code>folder_path</code> parameter which is provided as part of the
+  <code>GET</code> request or defaults to '/', the system documentation root,
+  which will index all projects.
 </div>
-*/
+<div class="p">
+  For data requests, the <code>format</code> parameter, which may be set to
+  (default) <code>nested</code> or <code>flat</code>. The resulting JSON data
+  structure is either <em>nested</em>, with each sub-directories and files
+  appearing as elements within the parent directories, or <em>flat</em>,
+  resulting in a simple listing of all files and directory web paths.
+</div>
+<div id="implementation" class="blurbSummary">
+  <div class="blurbTitle">Implementation</div>
+  <div class="description">
+*/?>
+<?php
 require('/home/user/playground/kibbles/runnable/lib/improved-error-response-lib.php');
 require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
-setup_for_get();
-// it stops here with a 406 if the client ain't buying what we're selling
+/**
+<div class="p">
+Processing stops here with a 406 if the client ain't buying what we're selling.
+</div>
+*/
 process_accept_header();
 
 extract($_GET, EXTR_SKIP);
@@ -87,3 +103,7 @@ else {
   final_result_ok("Item retrieved.", $result);
 }
 ?>
+<?php /**
+</div><!-- .descirption -->
+</div><!-- .blurbSummary #implementation -->
+*/ ?>
