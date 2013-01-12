@@ -3,13 +3,6 @@
 require_once('/home/user/playground/kibbles/runnable/lib/pest/PestJSON.php');
 require_once '/home/user/playground/kibbles/runnable/lib/SimpleDOM.php';
 $client = new PestJSON('http://127.0.0.1:42069');
-/**
-<div data-todo="revisit this once we support path filtering" class="p">
-  In the future, we may support path filtering. If we do, then we would filter
-  on '<code>&#42/src/rest/*</code>' here. Should make a decission on this one
-  way or the, document, and remove this note.
-</div>
- */
 $web_paths = $client->get('/documentation/?format=flat');
 $client = new Pest('http://127.0.0.1:42069');
 $client->throw_exceptions = false;
@@ -43,6 +36,8 @@ foreach ($web_paths['data'] as $web_path) {
 		    else $tested_hrefs[$href] = true;
 		}
 	    }
+	    else if (!preg_match('/^([a-z]+:|#)/', $href))
+		fwrite(STDOUT, "WARNING: found context-relative href '$href' on page '$web_path'. Root relative web paths preferred.\n");
 	}
 }
 if ($files_tested < 10)
