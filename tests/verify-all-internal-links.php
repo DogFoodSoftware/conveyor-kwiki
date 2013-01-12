@@ -41,7 +41,10 @@ foreach ($web_paths['data'] as $web_path) {
 	}
 }
 if ($files_tested < 10)
-    fwrite(STDOUT, "WARNING: Suspiciously small number of files--{$files_tested}--tested for valid link references.'\n");	
+    fwrite(STDOUT, "WARNING: Suspiciously small number of files--{$files_tested}--tested for valid link references.\n");	
 if ($links_tested < 10)
-    fwrite(STDOUT, "WARNING: Suspiciously small number of links--{$linkes_tested}--tested for valid references.'\n");	
+    fwrite(STDOUT, "WARNING: Suspiciously small number of links--{$linkes_tested}--tested for valid references.\n");	
+
+if ($files_tested != count($web_paths['data']))
+    fwrite(STDOUT, "ERROR: Files tested count and web paths count do not match: $files_tested/".count($web_paths['data']).".\n");	
 ?>
