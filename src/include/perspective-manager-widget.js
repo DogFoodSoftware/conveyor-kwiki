@@ -1,4 +1,4 @@
-// start with a closure to bind '$' to jQuery and scope further variables
+2// start with a closure to bind '$' to jQuery and scope further variables
 (function($) {
   // define templates first; this is a Kibbles thing
   ich.addTemplate('perspective_manager_widget','<div class="perspective-manager"></div>');
@@ -37,9 +37,18 @@
       });
     },
     // plugin specific methods
-    show : function() { /* ... */ },
-    hide : function() { /* ... */ },
-    reposition : function() {  /* ... */ }
+      set_perspectives : function(perspective_data) {
+	  return this.each(function() {
+	      var $this = $(this);
+	      var data = $this.data('perspective-manager');
+
+	      if (perspective_data == null) { // get the data
+		  
+	      }
+	      else { // render the data
+	      }
+	  });
+      }
   };
 
   // expose the plugin
@@ -56,8 +65,15 @@
     	if (typeof(suppress_default_kibbles_widget_bindings) == 'undefined' ||
 	    !suppress_default_kibbles_widget_bindings) {
 	  $('.perspective-manager-widget').perspective_manager();
+	    $('.perspective-manager-widget').perspective_manager('set_perspective');
         }
   });
 })(jQuery);
 
-alert('hi are you working?');
+
+foo = new Object();
+foo.baz = 1;
+foo.prototype.bar = function() { alert(1); }
+foo.bar();
+
+thing = foo.baz + 1
