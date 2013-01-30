@@ -7,13 +7,10 @@ $documentationIndexJs = array_merge($kibblesCoreJs, $documentationIndexJs);
 $documentationIndexCss = $kibblesCoreCss;
 
 // jquery-ui is used for the '.resize()' allowing us to resize code blocks
-$fileDocJs = array('/home/user/playground/kibbles/runnable/lib/third-party/jquery-ui-1.8.21.custom.min.js',
-	   '/home/user/playground/google-code-prettify/runnable/lib/prettify.js');
+$fileDocJs = array();
 $fileDocJs = array_merge($kibblesCoreJs, $fileDocJs);
 
-$fileDocCss =
-array('/home/user/playground/google-code-prettify/runnable/lib/prettify.css',
-	'/home/user/playground/kibbles/runnable/lib/google-code-prettify/df-pretty.css');
+$fileDocCss = array();
 $fileDocCss = array_merge($kibblesCoreCss, $fileDocCss);
 
 $fileIndexJs = array('/home/user/playground/kwiki/runnable/include/document-index-widget.js');

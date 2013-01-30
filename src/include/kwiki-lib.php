@@ -10,7 +10,6 @@ global $extraHeader;
 $extraHeader =
 "   <script>
      $(document).ready(function() {
-       prettyPrint(); // important to do pretty print first, otherwise elements have wrong size
        $('.prettyprintBox').each(function(i, el) {
          \$prettyprint = $(el).find('.prettyprint');
 	 // TODO: the '- 4' is for padding, totally style dependent and should be made dynamic
