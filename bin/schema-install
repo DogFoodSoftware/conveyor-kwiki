@@ -1,0 +1,9 @@
+#!/bin/bash
+
+source /home/user/playground/kibbles/runnable/lib/kibbles_foundation_db_funcs.sh
+
+USER=documentation
+SCHEMA=documentation
+PROJECT=kwiki
+SCRIPT=/home/user/playground/kwiki/runnable/datadef/account.sql
+setup_kibbles_schema
