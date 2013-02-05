@@ -1,4 +1,24 @@
 #!/bin/sh
-
+#/**
+#* <div class="p">
+#*   Script to determine status of <a href="/projects/kwiki">Kwiki</a> service.
+#* </div>
+#* <div id="reference-documentation" class="blurbSummary">
+#*   <div class="blurbTitle">Reference Documentation</div>
+#*   <div class="p">
+#*     Implemented according to the <a
+#*     href="/documentation/kibbles/ref/coding/Service_Management_Scripts#resource-services-implementation-notes">Coding:
+#*     Service Management Scripts</a> reference. Also take note of the
+#*     requried <a
+#*     href="/documentation/kibbles/ref/coding/Service_Management_Scripts#web-services-exit-codes">exit
+#*     codes</a>.
+#*   </div>
+#* </div><!-- #reference-documentation.blurbSummary -->
+#* <div id="implementation" class="blurbSummary">
+#*   <div class="blurbTitle">Implementation</div>
+#*/
 HTTPD_CONF=/home/user/playground/kwiki/conf/kwiki.httpd.conf
 source /home/user/playground/kibbles/runnable/lib/manage-lib/service-status-std-apache.sh
+#/**
+#* </div><!-- #implementation.blurbSummary  -->
+#*/
