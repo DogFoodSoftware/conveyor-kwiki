@@ -69,17 +69,10 @@
 		    var path = path_or_index_data;
 		    $.getJSON(path,
 			      function(result) {
-				  $this.loading_spinner('stop', function() {
-				      $this.document_display('render_index', result);
-				  });
+				  $this.loading_spinner('destroy').document_display('render_index', result);
 			      }).
 			error(function() {
-			    $this.loading_spinner('stop', function() {
-				/**
-				 * <todo>Make this a template.</todo>
-				 */
-				$this.find('.project-summary').html('Error processing groups request.');
-			    });
+			    $this.loading_spinner('destroy').find('.project-summary').html('Error processing groups request.');
 			});
 		}
 		else {

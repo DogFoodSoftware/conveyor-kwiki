@@ -83,17 +83,13 @@
 		    $.kibbles_data({url: '/documentation/',
 				    data: 'folder_path='+path,
 				    success: function(index_data) {
-					$this.loading_spinner('stop', function() {
-					    $this.document_index('render_index', index_data);
-					});
+					$this.loading_spinner('destroy').document_index('render_index', index_data);
 				    },
 				    error: function() {
-					$this.loading_spinner('stop', function() {
-					    /**
-					     * <todo>Make this a template.</todo>
-					     */
-					    $this.find('.project-summary').html('Error processing groups request.</div>');
-					});
+					/**
+					 * <todo>Make this a template.</todo>
+					 */
+					$this.loading_spinner('destroy').find('.project-summary').html('Error processing groups request.</div>');
 				    }
 				   });
 		}
