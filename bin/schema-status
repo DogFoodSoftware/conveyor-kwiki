@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCHEMA=documentation
+
+source /home/user/playground/kibbles/src/lib/data-status-lib.sh

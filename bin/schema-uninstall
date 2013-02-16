@@ -1,0 +1,6 @@
+#!/bin/bash
+
+SCHEMA=documentation
+PROJECT=kwiki
+
+source /home/user/playground/kibbles/src/lib/blank-schema-lib.sh

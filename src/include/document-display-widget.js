@@ -1,13 +1,13 @@
 /**
  * <div class="p">
  * Displays a single document. The document is receieved as an HTML fragment
- * in a <a href="/documentation/kibbles/ref/Data_Requests_and_Responses">data response</a>.
+ * in a <a href="/documentation/kibbles/ref/Data_Exchange">data exchange</a>.
  * </div>
  */
 (function($) {
     /**
      * Basic <a
-     * href="/documentation/kibbles/Widget_Reference#canvas-container"> canvas
+     * href="/documentation/kibbles/ref/Widget_Reference#canvas-container"> canvas
      * container</a>.
      */
     ich.addTemplate('document_display_widget', '<div class="document-display"></div>');

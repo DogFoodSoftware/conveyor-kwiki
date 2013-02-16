@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SCHEMA=useraccount
+
+source /home/user/playground/kibbles/src/lib/load-data-lib.sh

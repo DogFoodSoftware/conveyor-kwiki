@@ -37,7 +37,7 @@
 (function($) {
     /**
      * Basic <a
-     * href="/documentation/kibbles/Widget_Reference#canvas-container"> canvas
+     * href="/documentation/kibbles/ref/Widget_Reference#canvas-container"> canvas
      * container</a>.
      */
     ich.addTemplate('document_index_widget', '<div class="document-index"></div>');

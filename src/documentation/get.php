@@ -11,11 +11,11 @@
 <div class="blurbSummary grid_12">
 <div class="p">
   Pages recongized as source code&mdash;by location and extension&mdash;are <a
-  href="/kwiki/documentation/src/code-to-html.php">formatted for presentation
-  as HTML pages</a>. Wiki pages, under the
-  <code>&lt;project&gt;/kdata/documentation</code> directories are <a
-  href="/kwiki/documenqtation/src/wiki-page-processor.php">recognized as HTML
-  fragments and encoded as is or recognized as PHP scripts and evaluated</a>.
+  href="/documentation/kwiki/src/include/code-to-html.php">formatted for presentation
+  as HTML pages</a>. Wiki pages&mdash;under the
+  <code>&lt;project&gt;/kdata/documentation</code> directories&mdash;are
+  processed locally. These pages are analyzed and recognized as HTML fragments
+  and encoded as is or recognized as PHP scripts and evaluated.
 </div>
  */
 require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
@@ -62,7 +62,12 @@ else if (file_exists($doc_path)) { // it's a 'standard wiki page'
 else {
     // remember, this script is a little idiomatic, we set up a proper
     // response for HTML with $contents and JSON with the message update
-    if (respond_in_html()) $contents = $no_page_content;
+    if (respond_in_html()) {
+	require_once('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
+	$pageTitle = 'Dog Food Software || '.$file_title;
+	$headerTitle = $file_title;
+	final_result_bad_request($no_page_content);
+    }
     else {
 	require_once('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
 	add_global_message("No such document: $rest_id.");
