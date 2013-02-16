@@ -47,6 +47,14 @@ if (file_exists($code_path)) { // it's a code page
     code_to_html($code_path);
     $contents = ob_get_clean();
 }
+else if (file_exists($doc_path) && preg_match('/\.[a-zA-Z]+$/', $doc_path)) { // it's a code page
+    require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
+    $minifyBundle = 'fileDoc';
+    require '/home/user/playground/kwiki/runnable/include/code-to-html.php';
+    ob_start();
+    code_to_html($doc_path);
+    $contents = ob_get_clean();
+}
 else if (file_exists($doc_path)) { // it's a 'standard wiki page'
     // TODO: small effeciency gain: read first 6 characters of file only, then output file_get_contents() in non-script case
     if (is_dir($doc_path)) $doc_path = "$doc_path/".basename($doc_path);

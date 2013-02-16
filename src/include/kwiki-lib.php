@@ -13,15 +13,6 @@ $extraHeader =
        $('.prettyprintBox').each(function(i, el) {
          \$prettyprint = $(el).find('.prettyprint');
 	 // TODO: the '- 4' is for padding, totally style dependent and should be made dynamic
-         if (\$prettyprint.get(0).scrollHeight - 4 > \$prettyprint.height()) {
-           $(el).resizable({
-	     alsoResize: $(el).find('pre'), /* resize the pre block within the div contanier */
-	     handles: {'s': $(el).find('.resizeControl')}, /* limit to vertical / south */
-	     maxHeight: $(el).find('pre').prop('scrollHeight') +
-                        ($(el).prop('clientHeight') - $(el).find('pre').prop('clientHeight'))
-	   });
-         }
-	 else $(el).find('.resizeControl').remove();
        });
      });
    </script>\n";
