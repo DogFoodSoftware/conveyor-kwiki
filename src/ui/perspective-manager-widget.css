@@ -1,0 +1,9 @@
+.perspective:not([data-perspective=all]) {
+    display: none;
+}
+
+.perspective-manager-widget {
+font: bold 35px/1.5 URW Gothic L,Verdana,Arial,Helvetica,sans-serif;
+text-align: center; 
+padding-bottom: 10px;
+}
