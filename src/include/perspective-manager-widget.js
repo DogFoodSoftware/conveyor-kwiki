@@ -1,4 +1,4 @@
-2// start with a closure to bind '$' to jQuery and scope further variables
+// start with a closure to bind '$' to jQuery and scope further variables
 (function($) {
   // define templates first; this is a Kibbles thing
   ich.addTemplate('perspective_manager_widget','<div class="perspective-manager"></div>');
@@ -57,7 +57,7 @@
       return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
     else if (typeof method === 'object' || !method)
       return methods.init.apply(this, arguments);
-    else $.error("Method '" + method + "' does not exist on jQuery.tooltip_example.");
+    else $.error("Method '" + method + "' does not exist on jQuery.perspective_manager.");
   };
 
   // most widgets have a standard binding
@@ -65,15 +65,8 @@
     	if (typeof(suppress_default_kibbles_widget_bindings) == 'undefined' ||
 	    !suppress_default_kibbles_widget_bindings) {
 	  $('.perspective-manager-widget').perspective_manager();
-	    $('.perspective-manager-widget').perspective_manager('set_perspective');
+	    $('.perspective-manager-widget').perspective_manager('set_perspectives');
         }
   });
 })(jQuery);
 
-
-foo = new Object();
-foo.baz = 1;
-foo.prototype.bar = function() { alert(1); }
-foo.bar();
-
-thing = foo.baz + 1
