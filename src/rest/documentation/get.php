@@ -87,8 +87,9 @@ if (respond_in_html()) {
     $pageTitle = 'Dog Food Software || '.$file_title;
     $headerTitle = $file_title;
     // $minifyBundle already set
-    $bar = ' <div class="perspective-manager-widget">Perspective-Manager Widget</div>';
-    echo_interface ($bar.$contents);
+    $contents = '<div class="perspective-manager-widget loading-spinner-widget" data-perspective-manager=\'{"style":"dropdown"}\'>Perspective-Manager Widget</div>'.
+	$contents;
+    echo_interface ($contents);
 }
 else {
     require_once('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
