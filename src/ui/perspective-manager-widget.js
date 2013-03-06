@@ -56,7 +56,8 @@
 	      }
 	      else { // render the data
 		  var $canvas = $this.find('.perspective-manager');
-		  (function($this, $canvas, data) {
+		  (function($this, $canvas, data, perspectives) {
+		      var current_suggestions = perspectives.slice(0);
 		      if (data.style == "chase") {
 		      }
 		      else { // default to dropdown
@@ -68,19 +69,30 @@
 			      var textext = $(e.target).textext()[0];
 			      query = (data ? data.query : '') || '';
 			      $(this).trigger('setSuggestions',
-					      { result : textext.itemManager().filter(perspective_data.data, query) }
+					      { result : textext.itemManager().filter(current_suggestions, query) }
 					     );
 			  }).bind('setFormData', function(e, data, isEmpty) {
 			      var textext = $(e.target).textext()[0];
+			      // data is stored as JSON string array, evalling turns it into a regular array
 			      var val = eval(textext.hiddenInput().val());
-			      if ($(val).not($(data['selected perspectives'])).length != 0 ||
-				  $(data['selected perspectives']).not($(val)).length != 0) {
-				  data['selected perspectives'] = val;
-				  alert(data['selected perspectives']);
+			      current_suggestions = [];
+			      for (var i = 0; i < perspectives.length; i += 1) {
+				  var perspective_selected = false;
+				  for (var j = 0; j < val.length; j += 1) {
+				      if (perspectives[i] == val[j]) {
+					  perspective_selected = true;
+					  break;
+				      }
+				  }
+				  if (!perspective_selected)
+				      current_suggestions.push(perspectives[i]);
 			      }
+			      $(this).trigger('setSuggestions',
+					      { result : textext.itemManager().filter(current_suggestions, '') }
+					     );
 			  });
 		      }
-		  })($this, $canvas, data);
+		  })($this, $canvas, data, perspective_data.data);
 	      }
 	  });
       }
