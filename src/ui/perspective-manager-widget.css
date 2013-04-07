@@ -3,6 +3,10 @@
 }
 
 .perspective-manager-widget {
-font: bold 35px/1.5 URW Gothic L,Verdana,Arial,Helvetica,sans-serif;
+/*font: bold 35px/1.5 URW Gothic L,Verdana,Arial,Helvetica,sans-serif;*/
 padding-bottom: 10px;
+}
+
+.perspective-manager-widget ul {
+text-indent: 0;
 }

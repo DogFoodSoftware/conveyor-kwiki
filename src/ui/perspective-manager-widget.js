@@ -2,7 +2,8 @@
 (function($) {
     // define templates first; this is a Kibbles thing
     ich.addTemplate('perspective_manager','<div class="perspective-manager"></div>');
-    ich.addTemplate('perspective_manager_dropdown','<input type="text" />');
+    ich.addTemplate('perspective_manager_dropdown','<select data-placeholder="Set Perspective" style="width: 100%" multiple="multiple"><option value=""></option></select>');
+    ich.addTemplate('perspective_manager_option','<option>{{option}}</option>');
     
     // defnie the plugin methods; 'init' and 'destroy' are part of the 
     // jQuery lifecycle and should always be defined
@@ -56,43 +57,28 @@
 	      }
 	      else { // render the data
 		  var $canvas = $this.find('.perspective-manager');
-		  (function($this, $canvas, data, perspectives) {
-		      var current_suggestions = perspectives.slice(0);
-		      if (data.style == "chase") {
-		      }
-		      else { // default to dropdown
-			  $canvas.append(ich.perspective_manager_dropdown());
-			  $canvas.find('input').textext({
-			      plugins: 'tags prompt filter autocomplete arrow',
-			      prompt: 'Set perspective...'
-			  }).bind('getSuggestions', function(e, data) {
-			      var textext = $(e.target).textext()[0];
-			      query = (data ? data.query : '') || '';
-			      $(this).trigger('setSuggestions',
-					      { result : textext.itemManager().filter(current_suggestions, query) }
-					     );
-			  }).bind('setFormData', function(e, data, isEmpty) {
-			      var textext = $(e.target).textext()[0];
-			      // data is stored as JSON string array, evalling turns it into a regular array
-			      var val = eval(textext.hiddenInput().val());
-			      current_suggestions = [];
-			      for (var i = 0; i < perspectives.length; i += 1) {
-				  var perspective_selected = false;
-				  for (var j = 0; j < val.length; j += 1) {
-				      if (perspectives[i] == val[j]) {
-					  perspective_selected = true;
-					  break;
-				      }
-				  }
-				  if (!perspective_selected)
-				      current_suggestions.push(perspectives[i]);
+		  $canvas.append(ich.perspective_manager_dropdown());
+		  var $select = $canvas.find('select');
+		  var perspectives = perspective_data.data;
+
+		  for (var i = 0; i < perspectives.length; i += 1)
+		      $select.append(ich.perspective_manager_option({option: perspectives[i]}));
+
+		  $select.chosen().on('change', (function($select) {
+		      return function(event) {
+			  var selected_perspectives = $select.val(); // that's an array
+			  $('[data-perspective]').each(function(i, el) {
+			      var $this = $(el);
+			      var perspective = $this.data('perspective');
+			      if (perspective != 'all') { // we leave 'all' alone
+				  // then we test to see if it's shown or not
+				  if ($.inArray(perspective, selected_perspectives) != -1)
+				      $this.fadeIn();
+				  else $this.fadeOut();
 			      }
-			      $(this).trigger('setSuggestions',
-					      { result : textext.itemManager().filter(current_suggestions, '') }
-					     );
 			  });
-		      }
-		  })($this, $canvas, data, perspective_data.data);
+		      };
+		  })($select));
 	      }
 	  });
       }
@@ -111,11 +97,9 @@
   $(document).ready(function() {
     	if (typeof(suppress_default_kibbles_widget_bindings) == 'undefined' ||
 	    !suppress_default_kibbles_widget_bindings) {
-	    setTimeout(function() {
-		$('.perspective-manager-widget').
-		    perspective_manager().
-		    perspective_manager('set_perspectives');
-	    }, 1000);
+	    $('.perspective-manager-widget').
+		perspective_manager().
+		perspective_manager('set_perspectives');
         }
   });
 })(jQuery);
