@@ -2,7 +2,7 @@
 (function($) {
     // define templates first; this is a Kibbles thing
     ich.addTemplate('perspective_manager','<div class="perspective-manager"></div>');
-    ich.addTemplate('perspective_manager_dropdown','<form class="perspective-manager"><textarea rows="1"></textarea></form>');
+    ich.addTemplate('perspective_manager_dropdown','<input type="text" />');
     
     // defnie the plugin methods; 'init' and 'destroy' are part of the 
     // jQuery lifecycle and should always be defined
@@ -62,7 +62,7 @@
 		      }
 		      else { // default to dropdown
 			  $canvas.append(ich.perspective_manager_dropdown());
-			  $canvas.find('textarea').textext({
+			  $canvas.find('input').textext({
 			      plugins: 'tags prompt filter autocomplete arrow',
 			      prompt: 'Set perspective...'
 			  }).bind('getSuggestions', function(e, data) {
@@ -111,9 +111,11 @@
   $(document).ready(function() {
     	if (typeof(suppress_default_kibbles_widget_bindings) == 'undefined' ||
 	    !suppress_default_kibbles_widget_bindings) {
-	    $('.perspective-manager-widget').
-		perspective_manager().
-		perspective_manager('set_perspectives');
+	    setTimeout(function() {
+		$('.perspective-manager-widget').
+		    perspective_manager().
+		    perspective_manager('set_perspectives');
+	    }, 1000);
         }
   });
 })(jQuery);

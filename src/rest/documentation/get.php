@@ -87,7 +87,7 @@ if (respond_in_html()) {
     $pageTitle = 'Dog Food Software || '.$file_title;
     $headerTitle = $file_title;
     // $minifyBundle already set
-    $contents = '<div class="perspective-manager-widget loading-spinner-widget" data-perspective-manager=\'{"style":"dropdown"}\'>Perspective-Manager Widget</div>'.
+    $contents = '<div class="prefix_4 grid_4 suffix_4 perspective-manager-widget loading-spinner-widget" data-perspective-manager=\'{"style":"dropdown"}\'></div><div class="clear"></div>'.
 	$contents;
     echo_interface ($contents);
 }
