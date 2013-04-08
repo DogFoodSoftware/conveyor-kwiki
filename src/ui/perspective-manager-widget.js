@@ -64,6 +64,8 @@
 		  for (var i = 0; i < perspectives.length; i += 1)
 		      $select.append(ich.perspective_manager_option({option: perspectives[i]}));
 
+		  $select.val(data['perspectives']);
+
 		  $select.chosen().on('change', (function($select, $this) {
 		      return function(event) {
 			  $this.data('perspective-manager')['perspectives'] = $select.val(); // that's an array
