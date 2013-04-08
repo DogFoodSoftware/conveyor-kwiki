@@ -76,7 +76,7 @@ function code_to_html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
     }
     foreach ($lines as $line) {
 	// first, process the state changes
-	if (preg_match('=^\s*(<\?php\s+)?#?/\*\*\s*$=', $line)) {
+	if (preg_match('=^\s*(<\?php\s+)?(#\s*)?/\*\*\s*$=', $line)) {
 	    $inDoc = true;
 	    $doc_style = 'unknown';
 	    if ($i > 0 && $show_source == KWIKI_SHOW_SOURCE) {
