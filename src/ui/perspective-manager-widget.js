@@ -84,18 +84,24 @@
 	      var selected_perspectives = data['perspectives'];
 	      $('[data-perspective]').each(function(i, el) {
 		  var $this = $(el);
-		  var perspective = $this.data('perspective');
-		  if (perspective != 'all') { // we leave 'all' alone
+		  var perspective_string = $this.data('perspective');
+		  if (perspective_string != 'all') { // we leave 'all' alone
 		      // then we test to see if it's shown or not
-		      if ($.inArray(perspective, selected_perspectives) != -1) {
-			  $(el).fadeIn((function($el) {
-			      // see note below for the else case
-			      return function() {
-				  $el.show();
-			      };
-			  })($(el)));
+		      var element_perspectives = perspective_string.split(/\s+/);
+		      var matched = false;
+		      for (var i = 0; i < element_perspectives.length; i += 1) {
+			  var perspective = element_perspectives[i];
+			  if ($.inArray(perspective, selected_perspectives) != -1) {
+			      matched = true;
+			      $(el).fadeIn((function($el) {
+				  // see note below for the else case
+				  return function() {
+				      $el.show();
+				  };
+			      })($(el)));
+			  }
 		      }
-		      else {
+		      if (!matched) {
 			  // this is necessary to deal with the case where a
 			  // containing element is NOT displayed initially,
 			  // which would normally cause 'fadeOut' to take no
