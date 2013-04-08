@@ -109,24 +109,32 @@
 			  }
 			  matched = match_count == element_perspectives.length;
 		      }
-		      if (matched)
-			  $(el).fadeIn((function($el) {
-			      // see note below for the else case for we have
-			      // to show after fading in
-			      return function() {
-				  $el.show();
-			      };
-			  })($(el)));
+		      if (matched) {
+			  if ($(el).prop('tagName') == 'A')
+			      $(el).attr('href', $(el).data('href'));
+			  else
+			      $(el).fadeIn((function($el) {
+				  // see note below for the else case for we have
+				  // to show after fading in
+				  return function() {
+				      $el.show();
+				  };
+			      })($(el)));
+		      }
 		      else {
-			  // it is necessary to hide after fading out to deal
-			  // with the case where a containing element is NOT
-			  // displayed initially, which would normally cause
-			  // 'fadeOut' to take no action, but we still want
-			  // our element to be hidden when it is shown
-			  $(el).fadeOut((function($el) {
-			      return function() {
-				  $el.hide();
-			      };
+			  if ($(el).prop('tagName') == 'A')
+			      $(el).removeAttr('href');
+			  else
+			      // it is necessary to hide after fading out to
+			      // deal with the case where a containing element
+			      // is NOT displayed initially, which would
+			      // normally cause 'fadeOut' to take no action,
+			      // but we still want our element to be hidden
+			      // when it is shown
+			      $(el).fadeOut((function($el) {
+				  return function() {
+				      $el.hide();
+				  };
 			  })($(el)));
 		      }
 		  }
