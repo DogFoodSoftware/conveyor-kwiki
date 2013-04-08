@@ -38,7 +38,7 @@ else {
 //	}
 //    }
     require('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
-$results = array("developers", "project managers", "CIO", "sales associate");
+$results = array("vision", "finance", "coding", "management", "sales","specification","historical");
     final_result_ok("Item retrieved.", $results);
 }
 ?>

@@ -9,30 +9,30 @@
     // jQuery lifecycle and should always be defined
     var methods = {
     init : function(options) {
-	var defaults = {"style":"dropdown"};
+	var defaults = {"style":"dropdown",
+			"perspectives": $.ui_state('get_properties', 'perspective')};
       // unless returning an intrinsic value, always 'return this' to
       // support jQuery chanability; '.each()' results in this
       return this.each(function() {
         // here 'this' is an HTML element, so let's jQuery-ify it
           var $this = $(this);
-          var data = $.extend({}, 
+          var data = $.extend({},
 			      defaults,
 			      ($this.data('perspective-manager') || {}),
 			      options);
+	  ;
           $this.data('perspective-manager', data);
 	  
 	  $this.append(ich.perspective_manager());
+
+	  $this.perspective_manager('render_perspectives');
       });
     },
     destroy : function() {
-      // cleanup global events
-      $(window).off('.tooltip-example');
       return this.each(function() {
         var $this = $(this);
-        // cleanup local events
-        $this.off('.tooltip-example');
         // clean up the data
-        $this.removeData('hello-world');
+        $this.removeData('perspective-manager');
       });
     },
     // plugin specific methods
@@ -64,25 +64,51 @@
 		  for (var i = 0; i < perspectives.length; i += 1)
 		      $select.append(ich.perspective_manager_option({option: perspectives[i]}));
 
-		  $select.chosen().on('change', (function($select) {
+		  $select.chosen().on('change', (function($select, $this) {
 		      return function(event) {
-			  var selected_perspectives = $select.val(); // that's an array
-			  $('[data-perspective]').each(function(i, el) {
-			      var $this = $(el);
-			      var perspective = $this.data('perspective');
-			      if (perspective != 'all') { // we leave 'all' alone
-				  // then we test to see if it's shown or not
-				  if ($.inArray(perspective, selected_perspectives) != -1)
-				      $this.fadeIn();
-				  else $this.fadeOut();
-			      }
-			  });
+			  $this.data('perspective-manager')['perspectives'] = $select.val(); // that's an array
+			  methods.render_perspectives.call($this);
 		      };
-		  })($select));
+		  })($select, $this));
 	      }
 	  });
-      }
-  };
+      },
+	render_perspectives: function() {
+	  return this.each(function() {
+	      var $this = $(this);
+	      var data = $this.data('perspective-manager');
+	      
+	      var selected_perspectives = data['perspectives'];
+	      $('[data-perspective]').each(function(i, el) {
+		  var $this = $(el);
+		  var perspective = $this.data('perspective');
+		  if (perspective != 'all') { // we leave 'all' alone
+		      // then we test to see if it's shown or not
+		      if ($.inArray(perspective, selected_perspectives) != -1) {
+			  $(el).fadeIn((function($el) {
+			      // see note below for the else case
+			      return function() {
+				  $el.show();
+			      };
+			  })($(el)));
+		      }
+		      else {
+			  // this is necessary to deal with the case where a
+			  // containing element is NOT displayed initially,
+			  // which would normally cause 'fadeOut' to take no
+			  // action, but we still want our element to be
+			  // hidden when it is shown
+			  $(el).fadeOut((function($el) {
+			      return function() {
+				  $el.hide();
+			      };
+			  })($(el)));
+		      }
+		  }
+	      });
+	  });
+	}
+    };
 
   // expose the plugin
   $.fn.perspective_manager = function(method) {
