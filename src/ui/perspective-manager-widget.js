@@ -70,6 +70,7 @@
 		      return function(event) {
 			  $this.data('perspective-manager')['perspectives'] = $select.val(); // that's an array
 			  methods.render_perspectives.call($this);
+			  $.ui_state('set_property', 'perspective', $select.val());
 		      };
 		  })($select, $this));
 	      }
