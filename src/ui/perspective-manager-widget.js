@@ -87,26 +87,42 @@
 		  var perspective_string = $this.data('perspective');
 		  if (perspective_string != 'all') { // we leave 'all' alone
 		      // then we test to see if it's shown or not
-		      var element_perspectives = perspective_string.split(/\s+/);
 		      var matched = false;
+		      // first, an 'or' match
+		      var element_perspectives = perspective_string.split(/\s+/);
 		      for (var i = 0; i < element_perspectives.length; i += 1) {
 			  var perspective = element_perspectives[i];
 			  if ($.inArray(perspective, selected_perspectives) != -1) {
 			      matched = true;
-			      $(el).fadeIn((function($el) {
-				  // see note below for the else case
-				  return function() {
-				      $el.show();
-				  };
-			      })($(el)));
+			      break;
 			  }
 		      }
+		      // now an 'and' match
 		      if (!matched) {
-			  // this is necessary to deal with the case where a
-			  // containing element is NOT displayed initially,
-			  // which would normally cause 'fadeOut' to take no
-			  // action, but we still want our element to be
-			  // hidden when it is shown
+			  var element_perspectives = perspective_string.split(/&/);
+			  var match_count = 0;
+			  for (var i = 0; i < element_perspectives.length; i += 1) {
+			      var perspective = element_perspectives[i];
+			      if ($.inArray(perspective, selected_perspectives) == -1)
+				  break;
+			      else match_count += 1;
+			  }
+			  matched = match_count == element_perspectives.length;
+		      }
+		      if (matched)
+			  $(el).fadeIn((function($el) {
+			      // see note below for the else case for we have
+			      // to show after fading in
+			      return function() {
+				  $el.show();
+			      };
+			  })($(el)));
+		      else {
+			  // it is necessary to hide after fading out to deal
+			  // with the case where a containing element is NOT
+			  // displayed initially, which would normally cause
+			  // 'fadeOut' to take no action, but we still want
+			  // our element to be hidden when it is shown
 			  $(el).fadeOut((function($el) {
 			      return function() {
 				  $el.hide();

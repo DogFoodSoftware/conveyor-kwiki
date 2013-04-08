@@ -38,7 +38,7 @@ else {
 //	}
 //    }
     require('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
-$results = array("vision", "finance", "coding", "operations", "management", "sales","specification","historical");
+$results = array("vision", "finance", "coding", "operations", "management", "sales","detailed","historical");
     final_result_ok("Item retrieved.", $results);
 }
 ?>
