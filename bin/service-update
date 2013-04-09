@@ -1,0 +1,6 @@
+#!/bin/bash
+
+PROJECT_DIR=kwiki
+PROJECT_NAME="Kwiki"
+
+source $HOME/playground/kibbles/src/lib/manage-lib/service-update.sh
