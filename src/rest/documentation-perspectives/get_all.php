@@ -4,6 +4,9 @@
  * Multi_Perspective Service. Returns a list off the perspectives known in the
  Kibbles instance. 
  * </div>
+ * <div id="implementation" class="blurbSummary">
+ *  <div class="blurbTitle">Implementation</div>
+ *  <div class="description">
  */
 require_once('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
 setup_for_get();
@@ -42,3 +45,7 @@ $results = array("vision", "finance", "coding", "operations", "management", "sal
     final_result_ok("Item retrieved.", $results);
 }
 ?>
+<?php /**
+</div><!-- .descirption -->
+</div><!-- .blurbSummary #implementation -->
+*/ ?>

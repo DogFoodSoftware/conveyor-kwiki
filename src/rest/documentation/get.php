@@ -17,6 +17,9 @@
   processed locally. These pages are analyzed and recognized as HTML fragments
   and encoded as is or recognized as PHP scripts and evaluated.
 </div>
+<div id="implementation" data-perspective="coding" class="blurbSummary grid_12">
+<div class="blurbTitle">Implementation</div>
+<div class="description">
  */
 require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
 // it stops here with a 406 if the client ain't buying what we're selling
@@ -97,3 +100,7 @@ else {
     final_result_ok("Document retrieved.", $content);
 }
 ?>
+<?php /**
+</div><!-- .descirption -->
+</div><!-- .blurbSummary #implementation -->
+*/ ?>
