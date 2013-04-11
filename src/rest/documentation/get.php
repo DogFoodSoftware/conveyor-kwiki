@@ -41,21 +41,12 @@ $no_page_content = '<div style="text-align: center">NO SUCH PAGE.</div>';
 
 $code_path = "$base_dir/$project/$file_path";
 $doc_path = "$base_dir/$project/kdata/documentation/$file_path";
-$minifyBundle = 'kibblesCore';
-if (file_exists($code_path)) { // it's a code page
+if (file_exists($code_path) ||
+    file_exists($doc_path) && preg_match('/\.[a-zA-Z]+$/', $doc_path)) { // it's a code page
     require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
-    $minifyBundle = 'fileDoc';
     require '/home/user/playground/kwiki/runnable/include/code-to-html.php';
     ob_start();
     code_to_html($code_path);
-    $contents = ob_get_clean();
-}
-else if (file_exists($doc_path) && preg_match('/\.[a-zA-Z]+$/', $doc_path)) { // it's a code page
-    require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
-    $minifyBundle = 'fileDoc';
-    require '/home/user/playground/kwiki/runnable/include/code-to-html.php';
-    ob_start();
-    code_to_html($doc_path);
     $contents = ob_get_clean();
 }
 else if (file_exists($doc_path)) { // it's a 'standard wiki page'
@@ -75,7 +66,7 @@ else {
     // response for HTML with $contents and JSON with the message update
     if (respond_in_html()) {
 	require_once('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
-	$pageTitle = 'Dog Food Software || '.$file_title;
+	$pageTitle = $file_title;
 	$headerTitle = $file_title;
 	final_result_bad_request($no_page_content);
     }
@@ -87,9 +78,9 @@ else {
 if (respond_in_html()) {
     global $pageTitle;
     require_once('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
-    $pageTitle = 'Dog Food Software || '.$file_title;
+    $pageTitle = $file_title;
     $headerTitle = $file_title;
-    // $minifyBundle already set
+    // We expect $minifyBundle determined in echo_interface().
     $contents = '<div class="prefix_4 grid_4 suffix_4 perspective-manager-widget loading-spinner-widget" data-perspective-manager=\'{"style":"dropdown"}\'></div><div class="clear"></div>'.
 	$contents;
     echo_interface ($contents);
