@@ -2,7 +2,8 @@
 (function($) {
     // define templates first; this is a Kibbles thing
     ich.addTemplate('perspective_manager','<div class="perspective-manager"></div>');
-    ich.addTemplate('perspective_manager_dropdown','<select data-placeholder="Set Perspective" style="width: 100%" multiple="multiple"><option value=""></option></select>');
+    ich.addTemplate('perspective_manager_dropdown','<select data-placeholder="Set Perspective" style="width: 100%" multiple="multiple"><option value=""></option><option value="all">all</option></select>');
+    ich.addTemplate('perspective_manager_optgroup','<optgroup label={{group name}}></optgroup>');
     ich.addTemplate('perspective_manager_option','<option>{{option}}</option>');
     
     // defnie the plugin methods; 'init' and 'destroy' are part of the 
@@ -59,10 +60,20 @@
 		  var $canvas = $this.find('.perspective-manager');
 		  $canvas.append(ich.perspective_manager_dropdown());
 		  var $select = $canvas.find('select');
-		  var perspectives = perspective_data.data;
+		  var perspective_groups = perspective_data.data;
 
-		  for (var i = 0; i < perspectives.length; i += 1)
-		      $select.append(ich.perspective_manager_option({option: perspectives[i]}));
+		  for (var i = 0; i < perspective_groups.length; i += 1) {
+		      var $optgroup = $select.append(ich.perspective_manager_optgroup(perspective_groups[i])).
+			  // 'append()' returns the jQuery object upon which
+			  // it's invoked, following the standard chaining
+			  // rules for jQuery so we have to then access the
+			  // thing we just added to get the optgroup
+			  children().last();
+		      var options = perspective_groups[i]['group options'];
+		      for (var j = 0; j < options.length; j += 1)
+			  $optgroup.append(ich.perspective_manager_option({option: options[j]}));
+		  }
+
 
 		  $select.val(data['perspectives']);
 
@@ -95,6 +106,7 @@
 	      $('[data-perspective]').each(function(i, el) {
 		  var $this = $(el);
 		  var perspective_string = $this.data('perspective');
+		  var element_perspectives = perspective_string.split(/\s+/);
 		  // The perspective selection supports:
 		  // - the special string 'all', which is always true
 		  // - the special string 'empty', which is true only when
@@ -111,14 +123,8 @@
 		  var matched = false; // default
 		  // check whether the expression is inverted
 		  var inverted = false;
-		  /* if (selected_perspectives == null) alert('null');
-		  else alert(selected_perspectives.length + '; ' + selected_perspectives);
-		  if (perspective_string.indexOf('!') == 0) {
-		      inverted = true;
-		      perspective_string = perspective_string.substring(1);
-		  } */
 
-		  if (perspective_string == 'all')
+		  if (perspective_string == 'all' || $.inArray('all', selected_perspectives) > -1)
 		      matched = true;
 		  else if (perspective_string == 'any')
 		      matched = selected_perspectives != null && selected_perspectives.length > 0;
@@ -130,7 +136,6 @@
 		      // first, we'll process 'or' matches and trivial
 		      // matches; this will still run a test for an '&' match,
 		      // but it will always be falso so that's okay
-		      var element_perspectives = perspective_string.split(/\s+/);
 		      for (var i = 0; i < element_perspectives.length; i += 1) {
 			  var perspective = element_perspectives[i];
 			  if ($.inArray(perspective, selected_perspectives) != -1) {
@@ -151,7 +156,10 @@
 			  matched = match_count == element_perspectives.length;
 		      }
 		  }
-		  if ((matched && !inverted) || (!matched && inverted)) {
+
+		  if ((matched && !inverted) || (!matched && inverted) || 
+		      // the user selected 'all' always shows everything
+		      $.inArray('all', selected_perspectives) > -1) {
 		      if ($(el).prop('tagName') == 'A')
 			  $(el).attr('href', $(el).data('href'));
 		      else

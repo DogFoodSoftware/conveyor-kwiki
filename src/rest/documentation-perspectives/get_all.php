@@ -41,7 +41,10 @@ else {
 //	}
 //    }
     require('/home/user/playground/kibbles/runnable/lib/data-response-lib.php');
-$results = array("vision", "finance", "coding", "operations", "management", "sales","detailed","historical","future");
+$results = array(array('group name' => 'role',
+		       'group options' => array("vision","finance", "coding", "operations", "management", "sales")),
+		 array('group name' => 'additional',
+		       'group options' => array("detailed","historical","future")));
     final_result_ok("Item retrieved.", $results);
 }
 ?>
