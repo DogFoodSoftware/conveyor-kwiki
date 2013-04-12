@@ -123,6 +123,10 @@
 		  var matched = false; // default
 		  // check whether the expression is inverted
 		  var inverted = false;
+		  if (perspective_string.indexOf('!') == 0) {
+		      inverted = true;
+		      perspective_string = perspective_string.substring(1);
+		  }
 
 		  if (perspective_string == 'all' || $.inArray('all', selected_perspectives) > -1)
 		      matched = true;
@@ -132,7 +136,7 @@
 		      matched = selected_perspectives == null || selected_perspectives.length == 0;
 		  else if (selected_perspectives != null && selected_perspectives.length > 0) { 
 		      // process for 'and', 'or' or trivial matches
-
+		      var element_perspectives = perspective_string.split(/ /);
 		      // first, we'll process 'or' matches and trivial
 		      // matches; this will still run a test for an '&' match,
 		      // but it will always be falso so that's okay
@@ -156,7 +160,7 @@
 			  matched = match_count == element_perspectives.length;
 		      }
 		  }
-
+		  
 		  if ((matched && !inverted) || (!matched && inverted) || 
 		      // the user selected 'all' always shows everything
 		      $.inArray('all', selected_perspectives) > -1) {

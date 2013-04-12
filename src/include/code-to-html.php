@@ -91,7 +91,7 @@ function code_to_html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
 	    if ($i + 1 < count($lines) && ($i + 2 < count($lines) || strlen(trim($lines[$i + 1])) > 0) &&
 		$show_source == KWIKI_SHOW_SOURCE) {
 		$currCodeId = 'codeBlock'.$i;
-		echo '<div class="prettyprintBox resizable-block-widget" data-perspective="coding"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 2).'">'."\n";
+		echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 2).'">'."\n";
 	    }
 	    $inDoc = false;
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
