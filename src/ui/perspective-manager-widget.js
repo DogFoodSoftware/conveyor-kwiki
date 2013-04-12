@@ -68,7 +68,17 @@
 
 		  $select.chosen().on('change', (function($select, $this) {
 		      return function(event) {
-			  $this.data('perspective-manager')['perspectives'] = $select.val(); // that's an array
+			  var selected_perspectives = $select.val(); // that's an array
+			  // for some reason, I believe it has to do with
+			  // support for empty value lead in, once the user
+			  // selects any value, there's always a single empty
+			  // value at the head of the array; we don't really
+			  // want that
+			  if (selected_perspectives != null && 
+			      selected_perspectives.length > 0 &&
+			      selected_perspectives[0] == '')
+			      selected_perspectives = selected_perspectives.slice(1);
+			  $this.data('perspective-manager')['perspectives'] = selected_perspectives;
 			  methods.render_perspectives.call($this);
 			  $.ui_state('set_property', 'perspective', $select.val());
 		      };
@@ -101,15 +111,19 @@
 		  var matched = false; // default
 		  // check whether the expression is inverted
 		  var inverted = false;
+		  /* if (selected_perspectives == null) alert('null');
+		  else alert(selected_perspectives.length + '; ' + selected_perspectives);
 		  if (perspective_string.indexOf('!') == 0) {
 		      inverted = true;
 		      perspective_string = perspective_string.substring(1);
-		  }
+		  } */
 
 		  if (perspective_string == 'all')
 		      matched = true;
+		  else if (perspective_string == 'any')
+		      matched = selected_perspectives != null && selected_perspectives.length > 0;
 		  else if (perspective_string == 'empty')
-		      matched = (selected_perspectives == null || selected_perspectives.length == 0)
+		      matched = selected_perspectives == null || selected_perspectives.length == 0;
 		  else if (selected_perspectives != null && selected_perspectives.length > 0) { 
 		      // process for 'and', 'or' or trivial matches
 
