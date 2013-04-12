@@ -1,4 +1,4 @@
-.perspective:not([data-perspective=all]) {
+[data-perspective]:not([data-perspective=all]) {
     display: none;
 }
 

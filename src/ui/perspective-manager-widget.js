@@ -85,10 +85,37 @@
 	      $('[data-perspective]').each(function(i, el) {
 		  var $this = $(el);
 		  var perspective_string = $this.data('perspective');
-		  if (perspective_string != 'all') { // we leave 'all' alone
-		      // then we test to see if it's shown or not
-		      var matched = false;
-		      // first, an 'or' match
+		  // The perspective selection supports:
+		  // - the special string 'all', which is always true
+		  // - the special string 'empty', which is true only when
+		  //   selection is empty
+		  // - implied 'or' test when items are space separated
+		  // - 'and' test if items are separated by '&'
+		  // - ! the set of terms
+		  //
+		  // In the future, it would be great to support full boolean
+		  // algebra:
+		  // http://my.safaribooksonline.com/book/databases/sql/9781449319724/a-simplified-bnf-grammar/id2809359
+		  // but at the moment we have bigger fish to fry to so we
+		  // keep it simple and cover 80% of the use cases
+		  var matched = false; // default
+		  // check whether the expression is inverted
+		  var inverted = false;
+		  if (perspective_string.indexOf('!') == 0) {
+		      inverted = true;
+		      perspective_string = perspective_string.substring(1);
+		  }
+
+		  if (perspective_string == 'all')
+		      matched = true;
+		  else if (perspective_string == 'empty')
+		      matched = (selected_perspectives == null || selected_perspectives.length == 0)
+		  else if (selected_perspectives != null && selected_perspectives.length > 0) { 
+		      // process for 'and', 'or' or trivial matches
+
+		      // first, we'll process 'or' matches and trivial
+		      // matches; this will still run a test for an '&' match,
+		      // but it will always be falso so that's okay
 		      var element_perspectives = perspective_string.split(/\s+/);
 		      for (var i = 0; i < element_perspectives.length; i += 1) {
 			  var perspective = element_perspectives[i];
@@ -97,7 +124,7 @@
 			      break;
 			  }
 		      }
-		      // now an 'and' match
+		      // now we process 'and' matches
 		      if (!matched) {
 			  var element_perspectives = perspective_string.split(/&/);
 			  var match_count = 0;
@@ -109,34 +136,33 @@
 			  }
 			  matched = match_count == element_perspectives.length;
 		      }
-		      if (matched) {
-			  if ($(el).prop('tagName') == 'A')
-			      $(el).attr('href', $(el).data('href'));
-			  else
-			      $(el).fadeIn((function($el) {
-				  // see note below for the else case for we have
-				  // to show after fading in
-				  return function() {
-				      $el.show();
-				  };
-			      })($(el)));
-		      }
-		      else {
-			  if ($(el).prop('tagName') == 'A')
-			      $(el).removeAttr('href');
-			  else
-			      // it is necessary to hide after fading out to
-			      // deal with the case where a containing element
-			      // is NOT displayed initially, which would
-			      // normally cause 'fadeOut' to take no action,
-			      // but we still want our element to be hidden
-			      // when it is shown
-			      $(el).fadeOut((function($el) {
-				  return function() {
-				      $el.hide();
-				  };
+		  }
+		  if ((matched && !inverted) || (!matched && inverted)) {
+		      if ($(el).prop('tagName') == 'A')
+			  $(el).attr('href', $(el).data('href'));
+		      else
+			  $(el).fadeIn((function($el) {
+			      // see note below for the else case for we have
+			      // to show after fading in
+			      return function() {
+				  $el.show();
+			      };
 			  })($(el)));
-		      }
+		  }
+		  else if ((!matched && !inverted) || (matched && inverted)) {
+		      if ($(el).prop('tagName') == 'A')
+			  $(el).removeAttr('href');
+		      else
+			  // it is necessary to hide after fading out to deal
+			  // with the case where a containing element is NOT
+			  // displayed initially, which would normally cause
+			  // 'fadeOut' to take no action, but we still want
+			  // our element to be hidden when it is shown
+			  $(el).fadeOut((function($el) {
+			      return function() {
+				  $el.hide();
+			      };
+			  })($(el)));
 		  }
 	      });
 	  });
