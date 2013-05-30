@@ -1,7 +1,7 @@
 /**
  * <div class="p">
  * Displays a single document. The document is receieved as an HTML fragment
- * in a <a href="/documentation/kibbles/ref/Data_Exchange">data exchange</a>.
+ * in a <a href="/documentation/kibbles/ref/Headless_Exchange">data exchange</a>.
  * </div>
  */
 (function($) {
