@@ -17,9 +17,9 @@ foreach ($web_paths['data'] as $web_path) {
     if (preg_match('|src/rest/[^/]+/[^\./]*\.php$|', $web_path)) {
 	$files_tested += 1;
 	$document = SimpleDOM::loadHTML($client->get($web_path));
-	$implementation_sections = $document->xpath("//div[@id='implementation']");
+	$implementation_sections = $document->xpath("//div[@id='Implementation']");
 	if ($implementation_sections == null || count($implementation_sections) == 0)
-	    fwrite(STDOUT, "ERROR: '$web_path' appears to be a REST script with no 'implementation' section.\n");	
+	    fwrite(STDOUT, "ERROR: '$web_path' appears to be a REST script with no 'Implementation' section.\n");	
 	else if (count($implementation_sections) > 1)
 	    fwrite(STDOUT, "ERROR: '$web_path' appears have multiple 'implementation' sections.\n");	
     }

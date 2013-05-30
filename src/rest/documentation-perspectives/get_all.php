@@ -4,7 +4,7 @@
  * Multi_Perspective Service. Returns a list off the perspectives known in the
  Kibbles instance. 
  * </div>
- * <div id="implementation" class="blurbSummary">
+ * <div id="Implementation" class="blurbSummary">
  *  <div class="blurbTitle">Implementation</div>
  *  <div class="description">
  */
@@ -50,5 +50,5 @@ $results = array(array('group name' => 'role',
 ?>
 <?php /**
 </div><!-- .descirption -->
-</div><!-- .blurbSummary #implementation -->
+</div><!-- .blurbSummary#Implementation -->
 */ ?>

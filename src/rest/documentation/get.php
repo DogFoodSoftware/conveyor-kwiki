@@ -17,7 +17,7 @@
   processed locally. These pages are analyzed and recognized as HTML fragments
   and encoded as is or recognized as PHP scripts and evaluated.
 </div>
-<div id="implementation" data-perspective="coding" class="blurbSummary grid_12">
+<div id="Implementation" data-perspective="coding" class="blurbSummary grid_12">
 <div class="blurbTitle">Implementation</div>
 <div class="description">
  */
@@ -93,5 +93,5 @@ else {
 ?>
 <?php /**
 </div><!-- .descirption -->
-</div><!-- .blurbSummary #implementation -->
+</div><!-- .blurbSummary#Implementation -->
 */ ?>

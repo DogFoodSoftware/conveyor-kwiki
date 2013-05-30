@@ -12,7 +12,7 @@
   appearing as elements within the parent directories, or <em>flat</em>,
   resulting in a simple listing of all files and directory web paths.
 </div>
-<div id="implementation" class="blurbSummary">
+<div id="Implementation" class="blurbSummary">
   <div class="blurbTitle">Implementation</div>
   <div class="description">
 */?>
@@ -105,5 +105,5 @@ else {
 ?>
 <?php /**
 </div><!-- .descirption -->
-</div><!-- .blurbSummary #implementation -->
+</div><!-- .blurbSummary#Implementation -->
 */ ?>
