@@ -24,7 +24,7 @@
 	  ;
           $this.data('perspective-manager', data);
 	  
-	  $this.append(ich.perspective_manager());
+	  $this.append(ich.perspective_manager())
 
 	  $this.perspective_manager('render_perspectives');
       });
@@ -37,6 +37,7 @@
       });
     },
     // plugin specific methods
+
       set_perspectives : function(perspective_data) {
 	  return this.each(function() {
 	      var $this = $(this);
@@ -97,6 +98,21 @@
 	      }
 	  });
       },
+
+    //   	  //sarah added this
+    // sticky_perspective: function() {
+    // 	return this.(function() {
+ 			// var $this = $(this);
+ 			// var data = $this.data('perspective_manager');
+ 			// var sticky = data['perspectives'];
+
+ 			// $('[data-perspective]').each(function(topSpacing: 0, center:true, className:"hey"){ 
+    // 		var sticker = $this.data('perspective');
+    // 		)}
+    // 	});
+    // 	},
+
+
 	render_perspectives: function() {
 	  return this.each(function() {
 	      var $this = $(this);
@@ -213,5 +229,7 @@
 		perspective_manager('set_perspectives');
         }
   });
+
+
 })(jQuery);
 
