@@ -26,6 +26,8 @@
 	  
 	  $this.append(ich.perspective_manager())
 
+	  $this.sticky({ topSpacing: 12, center:true });
+
 	  $this.perspective_manager('render_perspectives');
       });
     },
@@ -98,19 +100,6 @@
 	      }
 	  });
       },
-
-    //   	  //sarah added this
-    // sticky_perspective: function() {
-    // 	return this.(function() {
- 			// var $this = $(this);
- 			// var data = $this.data('perspective_manager');
- 			// var sticky = data['perspectives'];
-
- 			// $('[data-perspective]').each(function(topSpacing: 0, center:true, className:"hey"){ 
-    // 		var sticker = $this.data('perspective');
-    // 		)}
-    // 	});
-    // 	},
 
 
 	render_perspectives: function() {
