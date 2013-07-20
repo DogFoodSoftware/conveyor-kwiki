@@ -30,8 +30,6 @@ extract($_GET, EXTR_SKIP);
 if (!isset($folder_path)) $folder_path='/';
 if (!isset($format)) $format = 'nested';
 if (respond_in_html()) {
-    global $minifyBundle;
-    $minifyBundle = 'fileIndex';
     require('/home/user/playground/kibbles/runnable/lib/interface-response-lib.php');
     echo_interface("<div class=\"document-index-widget loading-spinner-widget grid_12\" data-folder-path=\"$folder_path\"></div>");
 }
@@ -50,18 +48,23 @@ else {
   }
 
   function listDir($dir) {
+      // '$format' of the display; defined in the request parameters; 'flat'
+      // or defaults to 'nested'.
       global $format;
 
       $folder_path = preg_replace('|/home/user/playground|', '', $dir);
       $dir_title = $folder_path;
       $dir_title = explode('/', $dir_title);
       if (count($dir_title) == 1) $dir_title = $dir_title[0];
-      else $dir_title = '<span class="folder-parents">'.implode('/', array_slice($dir_title, 0, -1)).'</span>/'.$dir_title[count($dir_title) - 1];
+      else $dir_title = '<span class="folder-parents">'.
+	       implode('/', array_slice($dir_title, 0, -1)).'</span>/'.
+	       $dir_title[count($dir_title) - 1];
       $files = array();
       $dirs = array();
       $dh = opendir($dir);
       while (false !== ($file = readdir($dh))) {
-	  if (!preg_match('/^\./', $file) && !preg_match('/(\.png|\.jpg|\.jpeg|\.gif|\.svg|~)$/', $file)) {
+	  if (!preg_match('/^\./', $file) && 
+	      !preg_match('/(\.png|\.jpg|\.jpeg|\.gif|\.svg|~)$/', $file)) {
 	      if (is_dir("$dir/$file") && !is_file("$dir/$file/$file")) {
 		  if (!preg_match("@/home/user/playground/[^/]+/(runnable|data)@", "$dir/$file"))
 		      $dirs[] = "$dir/$file";
