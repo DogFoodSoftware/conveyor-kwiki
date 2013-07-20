@@ -24,7 +24,9 @@
 	  ;
           $this.data('perspective-manager', data);
 	  
-	  $this.append(ich.perspective_manager());
+	  $this.append(ich.perspective_manager())
+
+	  $this.sticky({ topSpacing: 12, center:true });
 
 	  $this.perspective_manager('render_perspectives');
       });
@@ -37,6 +39,7 @@
       });
     },
     // plugin specific methods
+
       set_perspectives : function(perspective_data) {
 	  return this.each(function() {
 	      var $this = $(this);
@@ -97,6 +100,8 @@
 	      }
 	  });
       },
+
+
 	render_perspectives: function() {
 	  return this.each(function() {
 	      var $this = $(this);
@@ -213,5 +218,7 @@
 		perspective_manager('set_perspectives');
         }
   });
+
+
 })(jQuery);
 
