@@ -26,7 +26,7 @@
 	  
 	  $this.append(ich.perspective_manager())
 
-	  $this.sticky({ topSpacing: 15, center:false });
+	  $this.scroll_control({topSpacing:10});
 
 	  $this.perspective_manager('render_perspectives');
       });
