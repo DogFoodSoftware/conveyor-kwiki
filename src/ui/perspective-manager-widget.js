@@ -26,7 +26,7 @@
 	  
 	  $this.append(ich.perspective_manager())
 
-	  $this.scroll_control({topSpacing:10});
+	  $this.element_docker({topSpacing:10});
 
 	  $this.perspective_manager('render_perspectives');
       });
