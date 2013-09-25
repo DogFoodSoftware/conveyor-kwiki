@@ -72,7 +72,7 @@ function code_to_html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
 	// if the $codeCount is greater than 6, then apply the 'long' modifier,
 	// which sets the initial height
 	if ($codeCount > $minExpandSize)
-	    echo "<script>$('#".$currCodeId."').addClass('long');</script>";
+	    echo "<script>$('#".$currCodeId."').addClass('long').resizable_block();</script>";
     }
     foreach ($lines as $line) {
 	// first, process the state changes
@@ -99,7 +99,7 @@ function code_to_html($file_path, $show_source=KWIKI_SHOW_SOURCE) {
 	else if ($i == 0 && // if we don't start with the special <?php /**, then the first line is treated as code
 		 $show_source == KWIKI_SHOW_SOURCE) { 
 	    $currCodeId = 'codeBlock'.$i;
-	    echo '<div class="prettyprintBox"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 1).'">'."\n";
+	    echo '<div class="prettyprintBox resizable-block-widget"><pre id="'.$currCodeId.'" class="prettyprint linenums:'.($i + 1).'">'."\n";
 	    $codeCount = -1; // start at -1 because we don't want to count this line, but '$codeCount' will be incremented
 	    echo htmlspecialchars($line)."\n";
 	}

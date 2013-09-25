@@ -165,10 +165,9 @@
 			  matched = match_count == element_perspectives.length;
 		      }
 		  }
-		  
-		  if ((matched && !inverted) || (!matched && inverted) || 
-		      // the user selected 'all' always shows everything
-		      $.inArray('all', selected_perspectives) > -1) {
+
+		  matched = inverted ? !matched : matched;
+		  if (matched) {
 		      if ($(el).prop('tagName') == 'A')
 			  $(el).attr('href', $(el).data('href'));
 		      else
@@ -180,7 +179,7 @@
 			      };
 			  })($(el)));
 		  }
-		  else if ((!matched && !inverted) || (matched && inverted)) {
+		  else {
 		      if ($(el).prop('tagName') == 'A')
 			  $(el).removeAttr('href');
 		      else
