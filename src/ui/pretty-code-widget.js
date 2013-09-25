@@ -10,6 +10,7 @@
     	if (typeof(suppress_default_kibbles_widget_bindings) == 'undefined' ||
 	    !suppress_default_kibbles_widget_bindings) {
 	    prettyPrint();
+	    $('.prettyPrintBox').resizable_block();
         }
     });
 })(jQuery);
