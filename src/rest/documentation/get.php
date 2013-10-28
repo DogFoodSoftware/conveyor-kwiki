@@ -1,5 +1,4 @@
-<?php 
-/**
+<?php /**
 <div class="p">
   Script to process <code>GET</code> requests for a single documentation
   item. Documentation items are generally of two types: content pages and
@@ -8,7 +7,6 @@
   widget to retrieve the information). This is necessary to expose
   documentation to search engines.
 </div>
-<div class="blurbSummary grid_12">
 <div class="p">
   Pages recongized as source code&mdash;by location and extension&mdash;are <a
   href="/documentation/kwiki/src/include/code-to-html.php">formatted for presentation
@@ -19,28 +17,30 @@
 </div>
 <div id="Implementation" data-perspective="coding" class="blurbSummary grid_12">
 <div class="blurbTitle">Implementation</div>
-<div class="description">
  */
 require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
 // it stops here with a 406 if the client ain't buying what we're selling
 process_accept_header();
 
 $rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
+// Kwiki's get is used by other resources.
+if (empty($document_url_path))
+   $document_url_path = 'documentation';
 /**
-   Decompose the REST ID to map to a file.
-*/
-$project = preg_replace('/^\/documentation\/([^\/]+).*/', '$1', $rest_id);
+ * Decompose the REST ID to map to a file.
+ */
+$project = preg_replace("/^\/$document_url_path\/([^\/]+).*/", '$1', $rest_id);
 $file = basename($rest_id); // used as the page title
 $file_title = preg_replace('/_/', ' ', $file);
 $base_dir = '/home/user/playground';
-$file_path = preg_replace("/^\/documentation\/$project\/?/", '', $rest_id);
+$file_path = preg_replace("/^\/$document_url_path\/$project\/?/", '', $rest_id);
 $page_title = preg_replace('/_/', ' ', $file_path);
 
 $content = null;
 $no_page_content = '<div style="text-align: center">NO SUCH PAGE.</div>';
 
 $code_path = "$base_dir/$project/$file_path";
-$doc_path = "$base_dir/$project/kdata/documentation/$file_path";
+$doc_path = "$base_dir/$project/kdata/$document_url_path/$file_path";
 if (file_exists($code_path) ||
     file_exists($doc_path) && preg_match('/\.[a-zA-Z]+$/', $doc_path)) { // it's a code page
     require('/home/user/playground/kwiki/runnable/include/kwiki-lib.php');
@@ -92,6 +92,5 @@ else {
 }
 ?>
 <?php /**
-</div><!-- .descirption -->
 </div><!-- .blurbSummary#Implementation -->
 */ ?>

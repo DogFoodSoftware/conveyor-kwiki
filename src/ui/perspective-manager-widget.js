@@ -24,11 +24,10 @@
 	  ;
           $this.data('perspective-manager', data);
 	  
-	  $this.append(ich.perspective_manager())
+	  $this.append(ich.perspective_manager());
+	  $this.perspective_manager('render_perspectives');
 
 	  $this.find('.perspective-manager').element_docker({topSpacing:10});
-
-	  $this.perspective_manager('render_perspectives');
       });
     },
     destroy : function() {
@@ -64,7 +63,6 @@
 		  $canvas.append(ich.perspective_manager_dropdown());
 		  var $select = $canvas.find('select');
 		  var perspective_groups = perspective_data.data;
-
 		  for (var i = 0; i < perspective_groups.length; i += 1) {
 		      var $optgroup = $select.append(ich.perspective_manager_optgroup(perspective_groups[i])).
 			  // 'append()' returns the jQuery object upon which
@@ -76,7 +74,6 @@
 		      for (var j = 0; j < options.length; j += 1)
 			  $optgroup.append(ich.perspective_manager_option({option: options[j]}));
 		  }
-
 
 		  $select.val(data['perspectives']);
 
