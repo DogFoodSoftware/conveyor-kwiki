@@ -22,7 +22,11 @@ require('/home/user/playground/kibbles/runnable/lib/accept-processing-lib.php');
 // it stops here with a 406 if the client ain't buying what we're selling
 process_accept_header();
 
-$rest_id = preg_replace('/\?.*$/', '', $_SERVER['REQUEST_URI']);
+$rest_id = preg_replace('/\?.*$/', '', 
+			empty($_SERVER['REDIRECT_URL']) ?
+			      $_SERVER['REQUEST_URI'] :
+			      $_SERVER['REDIRECT_URL']);
+error_log("REST ID: $rest_id");
 // Kwiki's get is used by other resources.
 if (empty($document_url_path))
    $document_url_path = 'documentation';
