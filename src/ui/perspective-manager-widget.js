@@ -26,8 +26,6 @@
 	  
 	  $this.append(ich.perspective_manager());
 	  $this.perspective_manager('render_perspectives');
-
-	  $this.find('.perspective-manager').element_docker({topSpacing:10});
       });
     },
     destroy : function() {
@@ -94,6 +92,16 @@
 			  $.ui_state('set_property', 'perspective', $select.val());
 		      };
 		  })($select, $this));
+
+		  // If we have the element_docker plugin available, then
+		  // we'll dock the perspective manager. Note, this must go
+		  // here and not in the setup, because the 'sticky' component
+		  // of element docker wraps the element with a set height
+		  // element which takes the height from the wrapped element,
+		  // so the wrapped element must be fully rendered before
+		  // being docked.
+		  if ($this.element_docker)
+		      $this.find('.perspective-manager').element_docker({topSpacing:10});
 	      }
 	  });
       },
