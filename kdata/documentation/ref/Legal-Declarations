@@ -1,0 +1,17 @@
+These declarations are provided as a good faith attempt to summarize the
+legal and contractual obligations entailed in use of this software.
+
+Third Party Components
+
+<a href="http://harvesthq.github.io/chosen/">Chosen JS</a> by <a
+href="http://www.getharvest.com/">Harvest</a>. Licensed under the <a
+href="https://github.com/harvesthq/chosen/blob/0c9d8799adaf29802020f66e3b076c29c0782d18/LICENSE.md">MIT
+license</a>. Specifically, <code>chosen.css</code> is our own file, based on
+the original chosen CSS but modified to work in the kwiki
+layout. <code>chosen.jquery.js</code> is a straight copy. According to the MIT
+license, this copy should include the MIT license text, however the text at
+the top of the <code>chosen.jquery.js</code> file states that it should not be
+editted. While this seems to be auto-generated verbage, we have chosen to
+respect the clear imperative declaration and leave the file as is, relying
+that the declaration and link to the MIT license in the file are deemed
+sufficient by all parties.
